@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import { TextInput as RNTextInput, Text, type TextInputProps as RNTextInputProps, View, type ViewStyle, Animated, type TextStyle } from 'react-native';
+import { TextInput as RNTextInput, Text, type TextInputProps as RNTextInputProps, View, type ViewStyle, Animated, type TextStyle, Pressable } from 'react-native';
 import { applyStyle, type BoxProps, type BalladSize } from '../../style';
 import { applyFontSizeProp, applySizeProp } from '../../style/Size';
 import { applyColor } from '../../style/Colors';
 import Flex from '../Flex/Flex';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, forwardRef } from 'react';
 
 export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'> {
     /**
@@ -89,23 +89,13 @@ const getInputStyles = (
         paddingRight: hasRightSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp(size),
     };
 
-    if (variant === 'underline') {
+    if (variant === 'underline' || variant === 'floating') {
         return {
             ...baseStyles,
             borderBottomWidth: 1,
             borderBottomColor: borderColor,
             backgroundColor: 'transparent',
-        };
-    }
-
-    if (variant === 'floating') {
-        return {
-            ...baseStyles,
-            borderWidth: 1,
-            borderColor,
-            borderRadius: applySizeProp(radius),
-            backgroundColor: disabled ? applyColor('gray.1') : 'white',
-            paddingTop: applySizeProp('lg'),
+            paddingTop: variant === 'floating' ? applySizeProp('lg') : applySizeProp(size),
         };
     }
 
@@ -159,7 +149,7 @@ const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize)
     zIndex: 1,
 });
 
-export const TextInput = (props: TextInputProps) => {
+export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forwardedRef) => {
     const {
         label,
         placeholder,
@@ -171,13 +161,13 @@ export const TextInput = (props: TextInputProps) => {
         variant = 'default',
         leftSection,
         rightSection,
-        ref,
         value,
         ...rest
     } = props;
 
     const [isFocused, setIsFocused] = useState(false);
     const animatedValue = useRef(new Animated.Value(value ? 1 : 0)).current;
+    const inputRef = useRef<RNTextInput>(null);
 
     useEffect(() => {
         Animated.timing(animatedValue, {
@@ -186,6 +176,12 @@ export const TextInput = (props: TextInputProps) => {
             useNativeDriver: false,
         }).start();
     }, [isFocused, value, animatedValue]);
+
+    const handleLabelPress = () => {
+        if (!disabled && inputRef.current) {
+            inputRef.current.focus();
+        }
+    };
 
     const inputStyles = getInputStyles(size, disabled, radius, error, variant, !!leftSection, !!rightSection);
     const errorStyles = getErrorStyles(size);
@@ -204,10 +200,12 @@ export const TextInput = (props: TextInputProps) => {
         <Flex direction="column" w="100%">
             <View style={{ position: 'relative' }}>
                 {variant === 'floating' && label && (
-                    <Animated.Text style={floatingLabelStyles}>
-                        {label}
-                        {required && <Text style={{ color: applyColor('red') }}> *</Text>}
-                    </Animated.Text>
+                    <Pressable onPress={handleLabelPress}>
+                        <Animated.Text style={floatingLabelStyles}>
+                            {label}
+                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                        </Animated.Text>
+                    </Pressable>
                 )}
                 {variant !== 'floating' && label && (
                     <Text style={getLabelStyles(size)}>
@@ -220,7 +218,15 @@ export const TextInput = (props: TextInputProps) => {
                     placeholderTextColor={applyColor('gray.4')}
                     editable={!disabled}
                     style={style}
-                    ref={ref}
+                    ref={(node) => {
+                        // Handle both forwarded ref and local ref
+                        if (typeof forwardedRef === 'function') {
+                            forwardedRef(node);
+                        } else if (forwardedRef) {
+                            forwardedRef.current = node;
+                        }
+                        inputRef.current = node;
+                    }}
                     value={value}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
@@ -240,4 +246,4 @@ export const TextInput = (props: TextInputProps) => {
             {error && <Text style={errorStyles}>{error}</Text>}
         </Flex>
     );
-}; 
+}); 
