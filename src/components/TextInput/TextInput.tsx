@@ -108,10 +108,10 @@ const getInputStyles = (
     };
 };
 
-const getSectionStyles = (position: 'left' | 'right'): ViewStyle => ({
+const getSectionStyles = (position: 'left' | 'right', variant: 'default' | 'underline' | 'floating' = 'default'): ViewStyle => ({
     position: 'absolute',
     [position]: applySizeProp('sm'),
-    top: 0,
+    top: variant === 'floating' ? applySizeProp('md') : 0,
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center' as const,
@@ -139,7 +139,7 @@ const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize)
     left: applySizeProp('sm'),
     top: animatedValue.interpolate({
         inputRange: [0, 1],
-        outputRange: [applySizeProp('md'), applySizeProp('xs')],
+        outputRange: [applySizeProp('lg'), applySizeProp('xs')],
     }),
     fontSize: animatedValue.interpolate({
         inputRange: [0, 1],
