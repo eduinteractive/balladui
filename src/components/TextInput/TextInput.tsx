@@ -38,7 +38,7 @@ export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'
      * The variant of the input.
      * @default 'default'
      */
-    variant?: 'default' | 'underline' | 'floating' | 'outline';
+    variant?: 'default' | 'underline';
 
     /**
      * Content to be rendered on the left side of the input.
@@ -73,7 +73,7 @@ const getInputStyles = (
     disabled: boolean,
     radius: BalladSize,
     error?: string,
-    variant: 'default' | 'underline' | 'floating' | 'outline' = 'default',
+    variant: 'default' | 'underline' = 'default',
     hasLeftSection?: boolean,
     hasRightSection?: boolean,
 ) => {
@@ -89,24 +89,13 @@ const getInputStyles = (
         paddingRight: hasRightSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp(size),
     };
 
-    if (variant === 'underline' || variant === 'floating') {
+    if (variant === 'underline') {
         return {
             ...baseStyles,
             borderBottomWidth: 1,
             borderBottomColor: borderColor,
             backgroundColor: 'transparent',
-            paddingTop: variant === 'floating' ? applySizeProp('lg') : applySizeProp(size),
-        };
-    }
-
-    if (variant === 'outline') {
-        return {
-            ...baseStyles,
-            borderWidth: 1,
-            borderColor,
-            borderRadius: applySizeProp(radius),
-            backgroundColor: disabled ? applyColor('gray.1') : 'white',
-            paddingTop: applySizeProp('md'),
+            paddingTop: applySizeProp('lg'),
         };
     }
 
@@ -116,26 +105,19 @@ const getInputStyles = (
         borderColor,
         borderRadius: applySizeProp(radius),
         backgroundColor: disabled ? applyColor('gray.1') : 'white',
+        paddingTop: applySizeProp('md'),
     };
 };
 
-const getSectionStyles = (position: 'left' | 'right', variant: 'default' | 'underline' | 'floating' | 'outline' = 'default'): ViewStyle => ({
+const getSectionStyles = (position: 'left' | 'right', variant: 'default' | 'underline' = 'default'): ViewStyle => ({
     position: 'absolute',
     [position]: applySizeProp('sm'),
-    top: variant === 'floating' ? applySizeProp('md') : 0,
+    top: variant === 'underline' ? applySizeProp('md') : 0,
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center' as const,
     zIndex: 1,
 });
-
-const getLabelStyles = (size: BalladSize) => {
-    return {
-        fontSize: applyFontSizeProp(size),
-        color: applyColor('gray.4'),
-        marginBottom: applySizeProp('xs'),
-    };
-};
 
 const getErrorStyles = (size: BalladSize) => {
     return {
@@ -160,7 +142,7 @@ const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize)
     zIndex: 1,
 });
 
-const getOutlineLabelStyles = (): TextStyle => ({
+const getDefaultLabelStyles = (): TextStyle => ({
     position: 'absolute',
     left: applySizeProp('sm'),
     top: -applySizeProp('xs'),
@@ -210,7 +192,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
     const leftSectionStyles = getSectionStyles('left', variant);
     const rightSectionStyles = getSectionStyles('right', variant);
     const floatingLabelStyles = getFloatingLabelStyles(animatedValue, size);
-    const outlineLabelStyles = getOutlineLabelStyles();
+    const defaultLabelStyles = getDefaultLabelStyles();
 
     const { style, ...inputProps } = applyStyle(
         {
@@ -222,14 +204,24 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
     return (
         <Flex direction="column" w="100%">
             <View style={{ position: 'relative' }}>
-                {variant !== 'floating' && variant !== 'outline' && label && (
-                    <Text style={getLabelStyles(size)}>
-                        {label}
-                        {required && <Text style={{ color: applyColor('red') }}> *</Text>}
-                    </Text>
+                {variant === 'underline' && label && (
+                    <Pressable onPress={handleLabelPress}>
+                        <Animated.Text style={floatingLabelStyles}>
+                            {label}
+                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                        </Animated.Text>
+                    </Pressable>
+                )}
+                {variant === 'default' && label && (
+                    <Pressable onPress={handleLabelPress}>
+                        <Text style={defaultLabelStyles}>
+                            {label}
+                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                        </Text>
+                    </Pressable>
                 )}
                 <RNTextInput
-                    placeholder={variant === 'floating' ? '' : placeholder}
+                    placeholder={placeholder}
                     placeholderTextColor={applyColor('gray.4')}
                     editable={!disabled}
                     style={[style, { zIndex: 1 }]}
@@ -255,22 +247,6 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     <View style={rightSectionStyles}>
                         {rightSection}
                     </View>
-                )}
-                {variant === 'floating' && label && (
-                    <Pressable onPress={handleLabelPress}>
-                        <Animated.Text style={floatingLabelStyles}>
-                            {label}
-                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
-                        </Animated.Text>
-                    </Pressable>
-                )}
-                {variant === 'outline' && label && (
-                    <Pressable onPress={handleLabelPress}>
-                        <Text style={outlineLabelStyles}>
-                            {label}
-                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
-                        </Text>
-                    </Pressable>
                 )}
             </View>
             {error && <Text style={errorStyles}>{error}</Text>}
