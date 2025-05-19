@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import { TextInput as RNTextInput, Text, type TextInputProps as RNTextInputProps, View, type ViewStyle } from 'react-native';
+import { TextInput as RNTextInput, Text, type TextInputProps as RNTextInputProps, View, type ViewStyle, Animated, type TextStyle } from 'react-native';
 import { applyStyle, type BoxProps, type BalladSize } from '../../style';
 import { applyFontSizeProp, applySizeProp } from '../../style/Size';
 import { applyColor } from '../../style/Colors';
 import Flex from '../Flex/Flex';
+import { useEffect, useRef, useState } from 'react';
 
 export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'> {
     /**
@@ -37,7 +38,7 @@ export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'
      * The variant of the input.
      * @default 'default'
      */
-    variant?: 'default' | 'underline';
+    variant?: 'default' | 'underline' | 'floating';
 
     /**
      * Content to be rendered on the left side of the input.
@@ -72,12 +73,12 @@ const getInputStyles = (
     disabled: boolean,
     radius: BalladSize,
     error?: string,
-    variant: 'default' | 'underline' = 'default',
+    variant: 'default' | 'underline' | 'floating' = 'default',
     hasLeftSection?: boolean,
     hasRightSection?: boolean,
 ) => {
     const errorColor = applyColor('error');
-    const borderColor = error ? errorColor : disabled ? applyColor('gray.3') : applyColor('gray.5');
+    const borderColor = error ? errorColor : disabled ? applyColor('gray.3') : applyColor('gray.4');
 
     const baseStyles = {
         fontSize: applyFontSizeProp(size),
@@ -94,6 +95,17 @@ const getInputStyles = (
             borderBottomWidth: 1,
             borderBottomColor: borderColor,
             backgroundColor: 'transparent',
+        };
+    }
+
+    if (variant === 'floating') {
+        return {
+            ...baseStyles,
+            borderWidth: 1,
+            borderColor,
+            borderRadius: applySizeProp(radius),
+            backgroundColor: disabled ? applyColor('gray.1') : 'white',
+            paddingTop: applySizeProp('lg'),
         };
     }
 
@@ -132,6 +144,21 @@ const getErrorStyles = (size: BalladSize) => {
     };
 };
 
+const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize): Animated.WithAnimatedValue<TextStyle> => ({
+    position: 'absolute',
+    left: applySizeProp('sm'),
+    top: animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [applySizeProp('md'), applySizeProp('xs')],
+    }),
+    fontSize: animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [applyFontSizeProp(size), applyFontSizeProp('sm')],
+    }),
+    color: applyColor('gray.4'),
+    zIndex: 1,
+});
+
 export const TextInput = (props: TextInputProps) => {
     const {
         label,
@@ -145,14 +172,26 @@ export const TextInput = (props: TextInputProps) => {
         leftSection,
         rightSection,
         ref,
+        value,
         ...rest
     } = props;
 
+    const [isFocused, setIsFocused] = useState(false);
+    const animatedValue = useRef(new Animated.Value(value ? 1 : 0)).current;
+
+    useEffect(() => {
+        Animated.timing(animatedValue, {
+            toValue: (isFocused || value) ? 1 : 0,
+            duration: 200,
+            useNativeDriver: false,
+        }).start();
+    }, [isFocused, value, animatedValue]);
+
     const inputStyles = getInputStyles(size, disabled, radius, error, variant, !!leftSection, !!rightSection);
-    const labelStyles = getLabelStyles(size);
     const errorStyles = getErrorStyles(size);
     const leftSectionStyles = getSectionStyles('left');
     const rightSectionStyles = getSectionStyles('right');
+    const floatingLabelStyles = getFloatingLabelStyles(animatedValue, size);
 
     const { style, ...inputProps } = applyStyle(
         {
@@ -163,19 +202,28 @@ export const TextInput = (props: TextInputProps) => {
 
     return (
         <Flex direction="column" w="100%">
-            {label && (
-                <Text style={labelStyles}>
-                    {label}
-                    {required && <Text style={{ color: applyColor('red') }}> *</Text>}
-                </Text>
-            )}
             <View style={{ position: 'relative' }}>
+                {variant === 'floating' && label && (
+                    <Animated.Text style={floatingLabelStyles}>
+                        {label}
+                        {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                    </Animated.Text>
+                )}
+                {variant !== 'floating' && label && (
+                    <Text style={getLabelStyles(size)}>
+                        {label}
+                        {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                    </Text>
+                )}
                 <RNTextInput
-                    placeholder={placeholder}
+                    placeholder={variant === 'floating' ? '' : placeholder}
                     placeholderTextColor={applyColor('gray.4')}
                     editable={!disabled}
                     style={style}
                     ref={ref}
+                    value={value}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                     {...inputProps}
                 />
                 {leftSection && (
