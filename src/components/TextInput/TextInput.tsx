@@ -149,6 +149,13 @@ const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize)
     zIndex: 1,
 });
 
+const getPlaceholderStyles = (): TextStyle => ({
+    fontSize: applyFontSizeProp('sm'),
+    color: applyColor('gray.4'),
+    marginTop: applySizeProp('xs'),
+    marginLeft: applySizeProp('sm'),
+});
+
 export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forwardedRef) => {
     const {
         label,
@@ -185,9 +192,10 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
 
     const inputStyles = getInputStyles(size, disabled, radius, error, variant, !!leftSection, !!rightSection);
     const errorStyles = getErrorStyles(size);
-    const leftSectionStyles = getSectionStyles('left');
-    const rightSectionStyles = getSectionStyles('right');
+    const leftSectionStyles = getSectionStyles('left', variant);
+    const rightSectionStyles = getSectionStyles('right', variant);
     const floatingLabelStyles = getFloatingLabelStyles(animatedValue, size);
+    const placeholderStyles = getPlaceholderStyles();
 
     const { style, ...inputProps } = applyStyle(
         {
@@ -214,12 +222,11 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     </Text>
                 )}
                 <RNTextInput
-                    placeholder={variant === 'floating' ? '' : placeholder}
+                    placeholder=""
                     placeholderTextColor={applyColor('gray.4')}
                     editable={!disabled}
                     style={style}
                     ref={(node) => {
-                        // Handle both forwarded ref and local ref
                         if (typeof forwardedRef === 'function') {
                             forwardedRef(node);
                         } else if (forwardedRef) {
@@ -243,6 +250,9 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     </View>
                 )}
             </View>
+            {variant === 'floating' && placeholder && !value && !isFocused && (
+                <Text style={placeholderStyles}>{placeholder}</Text>
+            )}
             {error && <Text style={errorStyles}>{error}</Text>}
         </Flex>
     );
