@@ -1,5 +1,5 @@
 {
-	"name": "balladui",
+	"name": "@eduinteractive/balladui",
 	"version": "0.1.0",
 	"description": "BalladUI",
 	"main": "./lib/module/index.js",
