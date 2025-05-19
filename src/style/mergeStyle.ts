@@ -6,6 +6,26 @@ type StyleObject = {
     [key: string]: any;
 };
 
+const cleanStyleObject = (obj: StyleObject): StyleObject => {
+    const result: StyleObject = {};
+
+    for (const key in obj) {
+        const value = obj[key];
+        if (value !== undefined && value !== null) {
+            if (value instanceof Object && !Array.isArray(value)) {
+                const cleaned = cleanStyleObject(value);
+                if (Object.keys(cleaned).length > 0) {
+                    result[key] = cleaned;
+                }
+            } else {
+                result[key] = value;
+            }
+        }
+    }
+
+    return result;
+};
+
 const mergeObjects = (
     target: StyleObject,
     source: StyleObject
@@ -24,7 +44,7 @@ const mergeObjects = (
         }
     }
 
-    return result;
+    return cleanStyleObject(result);
 };
 
 export const mergeStyle = (
@@ -55,11 +75,14 @@ export const applyStyle = (
     props: BoxProps,
     additionalStyles?: StyleProp<any>
 ): StyleProp<any> => {
-    const boxStyles = applyBoxProps(props);
-    const flattenedBoxStyles = StyleSheet.flatten(boxStyles.style);
+    const { style, ...boxProps } = applyBoxProps(props);
+    const flattenedBoxStyles = StyleSheet.flatten(style);
     const flattenedAdditional = additionalStyles
         ? StyleSheet.flatten(additionalStyles)
         : {};
 
-    return mergeStyle(flattenedBoxStyles, flattenedAdditional, props.style);
+    return {
+        style: mergeStyle(flattenedBoxStyles, flattenedAdditional, props.style),
+        ...boxProps
+    };
 };

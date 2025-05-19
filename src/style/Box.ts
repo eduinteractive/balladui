@@ -1,6 +1,7 @@
 import type { DimensionValue, ViewProps } from 'react-native';
 import { applySizeProp, type BalladSize } from './Size';
 import { StyleSheet } from 'react-native';
+import { applyColor } from './Colors';
 
 export type BoxProps = ViewProps & {
     /**
@@ -183,7 +184,7 @@ export const applyBoxProps = (props: BoxProps) => {
             bottom: applySizeProp(bottom),
             left: applySizeProp(left),
             zIndex,
-            backgroundColor: bg,
+            backgroundColor: applyColor(bg),
         },
     });
 
