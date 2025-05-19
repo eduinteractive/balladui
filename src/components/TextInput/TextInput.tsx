@@ -38,7 +38,7 @@ export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'
      * The variant of the input.
      * @default 'default'
      */
-    variant?: 'default' | 'underline' | 'floating';
+    variant?: 'default' | 'underline' | 'floating' | 'outline';
 
     /**
      * Content to be rendered on the left side of the input.
@@ -73,7 +73,7 @@ const getInputStyles = (
     disabled: boolean,
     radius: BalladSize,
     error?: string,
-    variant: 'default' | 'underline' | 'floating' = 'default',
+    variant: 'default' | 'underline' | 'floating' | 'outline' = 'default',
     hasLeftSection?: boolean,
     hasRightSection?: boolean,
 ) => {
@@ -99,6 +99,17 @@ const getInputStyles = (
         };
     }
 
+    if (variant === 'outline') {
+        return {
+            ...baseStyles,
+            borderWidth: 1,
+            borderColor,
+            borderRadius: applySizeProp(radius),
+            backgroundColor: disabled ? applyColor('gray.1') : 'white',
+            paddingTop: applySizeProp('md'),
+        };
+    }
+
     return {
         ...baseStyles,
         borderWidth: 1,
@@ -108,7 +119,7 @@ const getInputStyles = (
     };
 };
 
-const getSectionStyles = (position: 'left' | 'right', variant: 'default' | 'underline' | 'floating' = 'default'): ViewStyle => ({
+const getSectionStyles = (position: 'left' | 'right', variant: 'default' | 'underline' | 'floating' | 'outline' = 'default'): ViewStyle => ({
     position: 'absolute',
     [position]: applySizeProp('sm'),
     top: variant === 'floating' ? applySizeProp('md') : 0,
@@ -149,11 +160,15 @@ const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize)
     zIndex: 1,
 });
 
-const getPlaceholderStyles = (): TextStyle => ({
+const getOutlineLabelStyles = (): TextStyle => ({
+    position: 'absolute',
+    left: applySizeProp('sm'),
+    top: -applySizeProp('xs'),
     fontSize: applyFontSizeProp('sm'),
     color: applyColor('gray.4'),
-    marginTop: applySizeProp('xs'),
-    marginLeft: applySizeProp('sm'),
+    backgroundColor: 'white',
+    paddingHorizontal: applySizeProp('xs'),
+    zIndex: 1,
 });
 
 export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forwardedRef) => {
@@ -195,7 +210,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
     const leftSectionStyles = getSectionStyles('left', variant);
     const rightSectionStyles = getSectionStyles('right', variant);
     const floatingLabelStyles = getFloatingLabelStyles(animatedValue, size);
-    const placeholderStyles = getPlaceholderStyles();
+    const outlineLabelStyles = getOutlineLabelStyles();
 
     const { style, ...inputProps } = applyStyle(
         {
@@ -215,14 +230,22 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                         </Animated.Text>
                     </Pressable>
                 )}
-                {variant !== 'floating' && label && (
+                {variant === 'outline' && label && (
+                    <Pressable onPress={handleLabelPress}>
+                        <Text style={outlineLabelStyles}>
+                            {label}
+                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                        </Text>
+                    </Pressable>
+                )}
+                {variant !== 'floating' && variant !== 'outline' && label && (
                     <Text style={getLabelStyles(size)}>
                         {label}
                         {required && <Text style={{ color: applyColor('red') }}> *</Text>}
                     </Text>
                 )}
                 <RNTextInput
-                    placeholder=""
+                    placeholder={placeholder}
                     placeholderTextColor={applyColor('gray.4')}
                     editable={!disabled}
                     style={style}
@@ -250,9 +273,6 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     </View>
                 )}
             </View>
-            {variant === 'floating' && placeholder && !value && !isFocused && (
-                <Text style={placeholderStyles}>{placeholder}</Text>
-            )}
             {error && <Text style={errorStyles}>{error}</Text>}
         </Flex>
     );
