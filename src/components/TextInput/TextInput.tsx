@@ -49,6 +49,11 @@ export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'
      * @default false
      */
     required?: boolean;
+
+    /**
+     * The ref of the input.
+     */
+    ref?: React.RefObject<RNTextInput>;
 }
 
 const getInputStyles = (
@@ -97,9 +102,10 @@ export const TextInput = (props: TextInputProps) => {
         error,
         size = 'md',
         color = 'primary',
-        radius = 'sm',
+        radius = 'xs',
         disabled = false,
         required = false,
+        ref,
         ...rest
     } = props;
 
@@ -127,6 +133,7 @@ export const TextInput = (props: TextInputProps) => {
                 placeholderTextColor={applyColor('gray.4')}
                 editable={!disabled}
                 style={style}
+                ref={ref}
                 {...inputProps}
             />
             {error && <Text style={errorStyles}>{error}</Text>}
