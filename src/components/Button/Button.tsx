@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ActivityIndicator, Text, TouchableOpacity, type TouchableOpacityProps } from 'react-native';
-import { applySizeProp, applyStyle, type BalladSize, type BoxProps } from '../../style';
+import { applyFontSizeProp, applySizeProp, applyStyle, type BalladSize, type BoxProps } from '../../style';
 import { applyColor } from '../../style/Colors';
+import { Flex } from '../Flex';
 
 export type ButtonVariant = 'subtle' | 'light' | 'default' | 'filled' | 'outline';
 
@@ -9,7 +10,7 @@ export interface ButtonProps extends BoxProps, TouchableOpacityProps {
     /**
      * The content of the button.
      */
-    children?: React.ReactNode;
+    children?: React.ReactNode | string;
 
     /**
      * The variant of the button.
@@ -52,6 +53,11 @@ export interface ButtonProps extends BoxProps, TouchableOpacityProps {
      * @default false
      */
     disabled?: boolean;
+
+    /**
+     * font size of the button.
+     */
+    fs?: BalladSize;
 
     /**
      * Callback function when button is pressed.
@@ -121,10 +127,11 @@ export const Button = (props: ButtonProps) => {
         variant = 'filled',
         size = 'md',
         color = 'primary',
-        radius = 'sm',
+        radius = 'xs',
         loading = false,
         loadingText = '',
         disabled = false,
+        fs = "sm",
         onPress,
         ...rest
     } = props;
@@ -161,15 +168,20 @@ export const Button = (props: ButtonProps) => {
                     style={{ marginRight: applySizeProp('xs') }}
                 />
             ) : null}
-            <Text
-                style={{
-                    color: textColor,
-                    fontSize: size === 'xs' ? 12 : size === 'sm' ? 14 : size === 'lg' ? 18 : size === 'xl' ? 20 : 16,
-                    fontWeight: '500',
-                }}
-            >
-                {loading ? loadingText : children}
-            </Text>
+            {typeof children === 'string' ? (
+                <Text
+                    style={{
+                        color: textColor,
+                        fontSize: applyFontSizeProp(fs),
+                    }}
+                >
+                    {loading ? loadingText : children}
+                </Text>
+            ) : (
+                <Flex direction="row" align="center" justify="center" gap="xs">
+                    {loading ? loadingText : children}
+                </Flex>
+            )}
         </TouchableOpacity>
     );
 };

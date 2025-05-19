@@ -1,5 +1,5 @@
 import { Text as RNText } from 'react-native';
-import { applyStyle, type BoxProps } from '../../style';
+import { applyFontSizeProp, applyStyle, type BalladFontSize, type BoxProps } from '../../style';
 import { applyColor } from '../../style/Colors';
 
 export interface TextProps extends BoxProps {
@@ -21,7 +21,7 @@ export interface TextProps extends BoxProps {
     /**
      * The font size of the text.
      */
-    fs?: number;
+    fs?: BalladFontSize;
 
     /**
      * The font style of the text.
@@ -84,7 +84,7 @@ export const Text = (props: TextProps) => {
     const textStyles = {
         color: applyColor(c),
         fontFamily: ff,
-        fontSize: fs,
+        fontSize: applyFontSizeProp(fs),
         fontStyle: fst,
         fontWeight: fw,
         fontVariant: fv,
