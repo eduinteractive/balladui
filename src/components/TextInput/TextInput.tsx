@@ -168,7 +168,7 @@ const getOutlineLabelStyles = (): TextStyle => ({
     color: applyColor('gray.4'),
     backgroundColor: 'white',
     paddingHorizontal: applySizeProp('xs'),
-    zIndex: 1,
+    zIndex: 2,
 });
 
 export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forwardedRef) => {
@@ -222,22 +222,6 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
     return (
         <Flex direction="column" w="100%">
             <View style={{ position: 'relative' }}>
-                {variant === 'floating' && label && (
-                    <Pressable onPress={handleLabelPress}>
-                        <Animated.Text style={floatingLabelStyles}>
-                            {label}
-                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
-                        </Animated.Text>
-                    </Pressable>
-                )}
-                {variant === 'outline' && label && (
-                    <Pressable onPress={handleLabelPress}>
-                        <Text style={outlineLabelStyles}>
-                            {label}
-                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
-                        </Text>
-                    </Pressable>
-                )}
                 {variant !== 'floating' && variant !== 'outline' && label && (
                     <Text style={getLabelStyles(size)}>
                         {label}
@@ -245,10 +229,10 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     </Text>
                 )}
                 <RNTextInput
-                    placeholder={placeholder}
+                    placeholder={variant === 'floating' ? '' : placeholder}
                     placeholderTextColor={applyColor('gray.4')}
                     editable={!disabled}
-                    style={style}
+                    style={[style, { zIndex: 1 }]}
                     ref={(node) => {
                         if (typeof forwardedRef === 'function') {
                             forwardedRef(node);
@@ -271,6 +255,22 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     <View style={rightSectionStyles}>
                         {rightSection}
                     </View>
+                )}
+                {variant === 'floating' && label && (
+                    <Pressable onPress={handleLabelPress}>
+                        <Animated.Text style={floatingLabelStyles}>
+                            {label}
+                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                        </Animated.Text>
+                    </Pressable>
+                )}
+                {variant === 'outline' && label && (
+                    <Pressable onPress={handleLabelPress}>
+                        <Text style={outlineLabelStyles}>
+                            {label}
+                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                        </Text>
+                    </Pressable>
                 )}
             </View>
             {error && <Text style={errorStyles}>{error}</Text>}
