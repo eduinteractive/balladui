@@ -142,15 +142,18 @@ const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize)
     zIndex: 1,
 });
 
-const getDefaultLabelStyles = (): TextStyle => ({
+const getDefaultPressableStyles = (): ViewStyle => ({
     position: 'absolute',
     left: applySizeProp('sm'),
-    top: -applySizeProp('xs'),
-    fontSize: applyFontSizeProp('sm'),
+    top: -applySizeProp('sm'),
+    zIndex: 2,
+});
+
+const getDefaultLabelStyles = (): TextStyle => ({
+    fontSize: applyFontSizeProp('xs'),
     color: applyColor('gray.4'),
     backgroundColor: 'white',
     paddingHorizontal: applySizeProp('xs'),
-    zIndex: 2,
 });
 
 export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forwardedRef) => {
@@ -193,7 +196,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
     const rightSectionStyles = getSectionStyles('right', variant);
     const floatingLabelStyles = getFloatingLabelStyles(animatedValue, size);
     const defaultLabelStyles = getDefaultLabelStyles();
-
+    const defaultPressableStyles = getDefaultPressableStyles();
     const { style, ...inputProps } = applyStyle(
         {
             ...rest,
@@ -213,7 +216,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     </Pressable>
                 )}
                 {variant === 'default' && label && (
-                    <Pressable onPress={handleLabelPress}>
+                    <Pressable onPress={handleLabelPress} style={defaultPressableStyles}>
                         <Text style={defaultLabelStyles}>
                             {label}
                             {required && <Text style={{ color: applyColor('red') }}> *</Text>}
