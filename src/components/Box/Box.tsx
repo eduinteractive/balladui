@@ -1,4 +1,4 @@
-import type { BoxProps } from 'balladui';
+import type { BoxProps } from '../../style/Box';
 import { View } from 'react-native';
 import { applyBoxProps } from '../../style/Box';
 
