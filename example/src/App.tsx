@@ -1,30 +1,33 @@
-import { BalladUIProvider, Card, Flex, FAB, TextInput } from 'balladui';
-import { SafeAreaView, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ComponentList } from './screens/ComponentList';
+import { ComponentDetail } from './screens/ComponentDetail';
+import { BalladUIProvider } from '@eduinteractive/balladui';
 
-export default function App() {
+const Stack = createNativeStackNavigator({
+    screens: {
+        Components: ComponentList,
+        ComponentDetail: ComponentDetail,
+    },
+});
+
+export const App = () => {
     return (
         <BalladUIProvider>
-            <SafeAreaView style={{ flex: 1 }}>
-                <Flex direction="column">
-                    <Card color="blue.8" variant="filled" radius={0} w="100%">
-                        <Text>Hello</Text>
-                    </Card>
-                    <Card color="blue.8" variant="filled" radius={0} w="100%">
-                        <Text>Hello</Text>
-                    </Card>
-                </Flex>
-                <Flex direction="column" p="sm">
-                    <TextInput label="Name" placeholder="Name" size="sm" radius="xs" />
-                    <TextInput label="Name" placeholder="Name" required />
-                    <TextInput label="Name" placeholder="Name" error="Name is required" />
-                </Flex>
-                <FAB radius={50} p="sm" color="dark.7" placement="bottom-right">
-                    <Flex direction="row" align="center" justify="center">
-                        <Text style={{ color: "white" }}>+ </Text>
-                        <Text style={{ color: "white" }}>Termin hinzufügen</Text>
-                    </Flex>
-                </FAB>
-            </SafeAreaView>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name="Components"
+                        component={ComponentList}
+                        options={{ title: 'BalladUI Components' }}
+                    />
+                    <Stack.Screen
+                        name="ComponentDetail"
+                        component={ComponentDetail}
+                        options={({ route }) => ({ title: (route.params as any)?.name })}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
         </BalladUIProvider>
     );
-}
+};

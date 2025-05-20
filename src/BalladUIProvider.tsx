@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import { DEFAULT_THEME } from './style/DefaultTheme';
 
@@ -24,7 +24,7 @@ export interface BalladContextType {
 
 export const BalladContext = createContext<BalladContextType | undefined>(undefined);
 
-export const BalladUIProvider: React.FC<{ children: ReactNode, theme?: BalladTheme }> = ({ children, theme }) => {
+export const BalladUIProvider = ({ children, theme }: { children: ReactNode, theme?: BalladTheme }) => {
     const [currentTheme] = useState<BalladTheme>(theme ? {
         ...theme,
         colors: {

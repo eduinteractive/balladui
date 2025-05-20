@@ -6,5 +6,6 @@ export * from './Divider';
 export * from './FAB';
 export * from './Flex';
 export * from './Space';
+export * from './Spinner';
 export * from './Tabs';
 export * from './TextInput';
