@@ -30,6 +30,12 @@ export interface FABProps extends BoxProps, TouchableOpacityProps {
     radius?: BalladSize;
 
     /**
+     * Space of the FAB.
+     * @default 'md'
+     */
+    space?: BalladSize;
+
+    /**
      * Whether the FAB is disabled.
      * @default false
      */
@@ -41,16 +47,16 @@ export interface FABProps extends BoxProps, TouchableOpacityProps {
     onPress?: () => void;
 }
 
-const getPlacementStyles = (placement: FabPlacement): Partial<BoxProps> => {
+const getPlacementStyles = (placement: FabPlacement, space: BalladSize): Partial<BoxProps> => {
     switch (placement) {
         case 'top-left':
-            return { position: 'absolute', top: 32, left: 32 };
+            return { position: 'absolute', top: applySizeProp(space), left: applySizeProp(space) };
         case 'top-right':
-            return { position: 'absolute', top: 32, right: 32 };
+            return { position: 'absolute', top: applySizeProp(space), right: applySizeProp(space) };
         case 'bottom-left':
-            return { position: 'absolute', bottom: 32, left: 32 };
+            return { position: 'absolute', bottom: applySizeProp(space), left: applySizeProp(space) };
         default: // bottomRight
-            return { position: 'absolute', bottom: 32, right: 32 };
+            return { position: 'absolute', bottom: applySizeProp(space), right: applySizeProp(space) };
     }
 };
 
@@ -62,10 +68,11 @@ export const FAB = (props: FABProps) => {
         disabled = false,
         onPress,
         radius = 'md',
+        space = 'md',
         ...rest
     } = props;
 
-    const placementStyles = getPlacementStyles(placement);
+    const placementStyles = getPlacementStyles(placement, space);
     const baseColor = applyColor(color);
 
     const { style, ...fabProps } = applyStyle(
@@ -75,14 +82,6 @@ export const FAB = (props: FABProps) => {
         }, {
         ...placementStyles,
         backgroundColor: disabled ? applyColor('gray.3') : baseColor,
-        elevation: 6,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.27,
-        shadowRadius: 4.65,
         alignItems: 'center',
         justifyContent: 'center',
         opacity: disabled ? 0.6 : 1,
