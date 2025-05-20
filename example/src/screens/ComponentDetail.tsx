@@ -49,10 +49,10 @@ export const ComponentDetail = () => {
                         <Text fs="lg" fw="bold" mt="lg" mb="md">Spinner Colors</Text>
                         <Flex direction="row" gap="lg" align="center">
                             <Spinner color="primary" />
-                            <Spinner color="secondary" />
-                            <Spinner color="success" />
-                            <Spinner color="warning" />
-                            <Spinner color="error" />
+                            <Spinner color="blue" />
+                            <Spinner color="green" />
+                            <Spinner color="yellow" />
+                            <Spinner color="red" />
                         </Flex>
                     </Box>
                 );

@@ -1,8 +1,10 @@
-import { Text as RNText } from 'react-native';
+import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 import { applyFontSizeProp, applyStyle, type BalladFontSize, type BoxProps } from '../../style';
 import { applyColor } from '../../style/Colors';
 
-export interface TextProps extends BoxProps {
+export interface TextProps extends Omit<BoxProps, 'style'>, Omit<RNTextProps, 'style'> {
+    style?: BoxProps['style'] & RNTextProps['style'];
+
     /**
      * The content of the text.
      */
