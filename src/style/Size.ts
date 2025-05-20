@@ -3,6 +3,7 @@ import type { DimensionValue } from 'react-native';
 export type BalladSize =
     | 'xs'
     | 'sm'
+    | 'smd'
     | 'md'
     | 'lg'
     | 'xl'
@@ -12,6 +13,7 @@ export type BalladSize =
 export const BalladSizeMap = {
     'xs': 4,
     'sm': 8,
+    'smd': 12,
     'md': 16,
     'lg': 24,
     'xl': 32,
@@ -25,6 +27,7 @@ export const applySizeProp = (size: BalladSize | undefined) => {
 export type BalladFontSize =
     | 'xs'
     | 'sm'
+    | 'smd'
     | 'md'
     | 'lg'
     | 'xl'
@@ -32,8 +35,9 @@ export type BalladFontSize =
     | DimensionValue;
 
 export const BalladFontSizeMap = {
-    'xs': 12,
-    'sm': 14,
+    'xs': 10,
+    'sm': 12,
+    'smd': 14,
     'md': 16,
     'lg': 18,
     'xl': 20,

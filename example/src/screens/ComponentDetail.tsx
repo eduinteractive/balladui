@@ -82,6 +82,7 @@ export const ComponentDetail = () => {
                         <Flex direction="column" gap="md">
                             <Text fs="xs">Extra Small Text</Text>
                             <Text fs="sm">Small Text</Text>
+                            <Text fs="smd">Small Medium Text</Text>
                             <Text fs="md">Medium Text</Text>
                             <Text fs="lg">Large Text</Text>
                             <Text fs="xl">Extra Large Text</Text>
