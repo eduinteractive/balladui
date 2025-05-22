@@ -18,6 +18,7 @@ const components = [
     { name: 'Divider', description: 'Horizontal or vertical divider line' },
     { name: 'FAB', description: 'Floating Action Button component' },
     { name: 'Flex', description: 'Flexbox container component' },
+    { name: 'Select', description: 'Dropdown select component with search functionality' },
     { name: 'Space', description: 'Spacing component for layout' },
     { name: 'Spinner', description: 'Loading spinner component' },
     { name: 'Tabs', description: 'Tab navigation component' },

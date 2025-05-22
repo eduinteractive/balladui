@@ -1,7 +1,8 @@
 import type { DimensionValue, ViewProps } from 'react-native';
 import { applySizeProp, type BalladSize } from './Size';
 import { StyleSheet } from 'react-native';
-import { applyColor } from './Colors';
+import type { BalladTheme } from '../BalladUIProvider';
+import { applyColor } from '../hooks/useColor';
 
 export type BoxProps = ViewProps & {
     /**
@@ -122,7 +123,7 @@ export type BoxProps = ViewProps & {
     bg?: string;
 };
 
-export const applyBoxProps = (props: BoxProps) => {
+export const applyBoxProps = (props: BoxProps, theme: BalladTheme) => {
     const {
         flex,
         m,
@@ -184,7 +185,7 @@ export const applyBoxProps = (props: BoxProps) => {
             bottom: applySizeProp(bottom),
             left: applySizeProp(left),
             zIndex,
-            backgroundColor: applyColor(bg),
+            backgroundColor: applyColor(bg, theme),
         },
     });
 

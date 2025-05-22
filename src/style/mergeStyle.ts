@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import type { StyleProp } from 'react-native';
 import { applyBoxProps, type BoxProps } from './Box';
+import type { BalladTheme } from '../BalladUIProvider';
 
 type StyleObject = {
     [key: string]: any;
@@ -73,9 +74,10 @@ export const mergeStyle = (
 
 export const applyStyle = (
     props: BoxProps,
-    additionalStyles?: StyleProp<any>
+    theme: BalladTheme,
+    additionalStyles?: StyleProp<any>,
 ): StyleProp<any> => {
-    const { style, ...boxProps } = applyBoxProps(props);
+    const { style, ...boxProps } = applyBoxProps(props, theme);
     const flattenedBoxStyles = StyleSheet.flatten(style);
     const flattenedAdditional = additionalStyles
         ? StyleSheet.flatten(additionalStyles)

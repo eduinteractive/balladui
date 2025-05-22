@@ -2,9 +2,11 @@
 import { TextInput as RNTextInput, Text, type TextInputProps as RNTextInputProps, View, type ViewStyle, Animated, type TextStyle, Pressable } from 'react-native';
 import { applyStyle, type BoxProps, type BalladSize } from '../../style';
 import { applyFontSizeProp, applySizeProp } from '../../style/Size';
-import { applyColor } from '../../style/Colors';
+import { applyColor } from '../../hooks/useColor';
 import Flex from '../Flex/Flex';
 import { useEffect, useRef, useState, forwardRef } from 'react';
+import { useTheme } from '../../hooks/useTheme';
+import type { BalladTheme } from '../../BalladUIProvider';
 
 export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'> {
     /**
@@ -76,17 +78,18 @@ const getInputStyles = (
     variant: 'default' | 'underline' = 'default',
     hasLeftSection?: boolean,
     hasRightSection?: boolean,
+    theme?: BalladTheme,
 ) => {
-    const errorColor = applyColor('error');
-    const borderColor = error ? errorColor : disabled ? applyColor('gray.3') : applyColor('gray.4');
+    const errorColor = applyColor('error', theme);
+    const borderColor = error ? errorColor : disabled ? applyColor('gray.3', theme) : applyColor('gray.4', theme);
 
     const baseStyles = {
         fontSize: applyFontSizeProp(size),
-        color: disabled ? applyColor('gray.5') : applyColor('gray.9'),
-        paddingVertical: applySizeProp(size),
+        color: disabled ? applyColor('gray.5', theme) : applyColor('gray.9', theme),
+        paddingVertical: applySizeProp('md'),
         flex: 1,
-        paddingLeft: hasLeftSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp(size),
-        paddingRight: hasRightSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp(size),
+        paddingLeft: hasLeftSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp('sm'),
+        paddingRight: hasRightSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp('sm'),
     };
 
     if (variant === 'underline') {
@@ -104,7 +107,7 @@ const getInputStyles = (
         borderWidth: 1,
         borderColor,
         borderRadius: applySizeProp(radius),
-        backgroundColor: disabled ? applyColor('gray.1') : 'white',
+        backgroundColor: disabled ? applyColor('gray.1', theme) : 'white',
         paddingTop: applySizeProp('md'),
     };
 };
@@ -127,7 +130,7 @@ const getErrorStyles = (size: BalladSize) => {
     };
 };
 
-const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize): Animated.WithAnimatedValue<TextStyle> => ({
+const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize, theme: BalladTheme): Animated.WithAnimatedValue<TextStyle> => ({
     position: 'absolute',
     left: applySizeProp('sm'),
     top: animatedValue.interpolate({
@@ -138,7 +141,7 @@ const getFloatingLabelStyles = (animatedValue: Animated.Value, size: BalladSize)
         inputRange: [0, 1],
         outputRange: [applyFontSizeProp(size), applyFontSizeProp('sm')],
     }),
-    color: applyColor('gray.4'),
+    color: applyColor('gray.4', theme),
     zIndex: 1,
 });
 
@@ -149,9 +152,9 @@ const getDefaultPressableStyles = (): ViewStyle => ({
     zIndex: 2,
 });
 
-const getDefaultLabelStyles = (): TextStyle => ({
+const getDefaultLabelStyles = (theme: BalladTheme): TextStyle => ({
     fontSize: applyFontSizeProp('xs'),
-    color: applyColor('gray.4'),
+    color: applyColor('gray.4', theme),
     backgroundColor: 'white',
     paddingHorizontal: applySizeProp('xs'),
 });
@@ -172,17 +175,19 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
         ...rest
     } = props;
 
+    const theme = useTheme();
     const [isFocused, setIsFocused] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(!value);
     const animatedValue = useRef(new Animated.Value(value ? 1 : 0)).current;
     const inputRef = useRef<RNTextInput>(null);
 
     useEffect(() => {
         Animated.timing(animatedValue, {
-            toValue: (isFocused || value) ? 1 : 0,
+            toValue: (isFocused || value || !isEmpty) ? 1 : 0,
             duration: 200,
             useNativeDriver: false,
         }).start();
-    }, [isFocused, value, animatedValue]);
+    }, [isFocused, value, isEmpty, animatedValue]);
 
     const handleLabelPress = () => {
         if (!disabled && inputRef.current) {
@@ -190,17 +195,18 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
         }
     };
 
-    const inputStyles = getInputStyles(size, disabled, radius, error, variant, !!leftSection, !!rightSection);
+    const inputStyles = getInputStyles(size, disabled, radius, error, variant, !!leftSection, !!rightSection, theme);
     const errorStyles = getErrorStyles(size);
     const leftSectionStyles = getSectionStyles('left', variant);
     const rightSectionStyles = getSectionStyles('right', variant);
-    const floatingLabelStyles = getFloatingLabelStyles(animatedValue, size);
-    const defaultLabelStyles = getDefaultLabelStyles();
+    const floatingLabelStyles = getFloatingLabelStyles(animatedValue, size, theme);
+    const defaultLabelStyles = getDefaultLabelStyles(theme);
     const defaultPressableStyles = getDefaultPressableStyles();
     const { style, ...inputProps } = applyStyle(
         {
             ...rest,
         },
+        theme,
         inputStyles
     );
 
@@ -211,7 +217,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     <Pressable onPress={handleLabelPress}>
                         <Animated.Text style={floatingLabelStyles}>
                             {label}
-                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                            {required && <Text style={{ color: applyColor('red', theme) }}> *</Text>}
                         </Animated.Text>
                     </Pressable>
                 )}
@@ -219,13 +225,13 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     <Pressable onPress={handleLabelPress} style={defaultPressableStyles}>
                         <Text style={defaultLabelStyles}>
                             {label}
-                            {required && <Text style={{ color: applyColor('red') }}> *</Text>}
+                            {required && <Text style={{ color: applyColor('red', theme) }}> *</Text>}
                         </Text>
                     </Pressable>
                 )}
                 <RNTextInput
                     placeholder={placeholder}
-                    placeholderTextColor={applyColor('gray.4')}
+                    placeholderTextColor={applyColor('gray.4', theme)}
                     editable={!disabled}
                     style={[style, { zIndex: 1 }]}
                     ref={(node) => {
@@ -239,6 +245,10 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
                     value={value}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
+                    onChangeText={(text) => {
+                        setIsEmpty(text === '');
+                        inputProps.onChangeText?.(text);
+                    }}
                     {...inputProps}
                 />
                 {leftSection && (
@@ -255,4 +265,5 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
             {error && <Text style={errorStyles}>{error}</Text>}
         </Flex>
     );
-}); 
+});
+

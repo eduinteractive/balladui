@@ -2,13 +2,15 @@ import { View } from 'react-native';
 import type { BoxProps } from '../../style/Box';
 import type { BalladSize } from '../../style/Size';
 import { applySizeProp } from '../../style/Size';
-import { applyColor } from '../../style/Colors';
+import { applyColor } from '../../hooks/useColor';
 import { applyStyle } from '../../style/mergeStyle';
+import { useTheme } from '../../hooks/useTheme';
+import type { BalladTheme } from '../../BalladUIProvider';
 
 export type CardVariant = 'elevated' | 'filled' | 'outline';
 
-const getVariantStyles = (variant: CardVariant, color?: string) => {
-    const baseColor = applyColor(color);
+const getVariantStyles = (variant: CardVariant, color?: string, theme?: BalladTheme) => {
+    const baseColor = applyColor(color, theme);
 
     switch (variant) {
         case 'elevated':
@@ -64,12 +66,14 @@ export const Card = (props: CardProp) => {
         ...rest
     } = props;
 
-    const variantStyles = getVariantStyles(variant, color);
+    const theme = useTheme();
+
+    const variantStyles = getVariantStyles(variant, color, theme);
 
     const { style, ...boxProps } = applyStyle({
         ...rest,
         p: rest.p ?? 'md',
-    }, {
+    }, theme, {
         ...variantStyles,
         borderRadius: applySizeProp(radius),
     });

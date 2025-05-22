@@ -1,6 +1,7 @@
 import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 import { applyFontSizeProp, applyStyle, type BalladFontSize, type BoxProps } from '../../style';
-import { applyColor } from '../../style/Colors';
+import { applyColor } from '../../hooks/useColor';
+import { useTheme } from '../../hooks/useTheme';
 
 export interface TextProps extends Omit<BoxProps, 'style'>, Omit<RNTextProps, 'style'> {
     style?: BoxProps['style'] & RNTextProps['style'];
@@ -83,8 +84,10 @@ export const Text = (props: TextProps) => {
         ...rest
     } = props;
 
+    const theme = useTheme();
+
     const textStyles = {
-        color: applyColor(c),
+        color: applyColor(c, theme),
         fontFamily: ff,
         fontSize: applyFontSizeProp(fs),
         fontStyle: fst,
@@ -97,7 +100,7 @@ export const Text = (props: TextProps) => {
         textDecorationLine: tdl,
     };
 
-    const { style, ...textProps } = applyStyle(rest, textStyles);
+    const { style, ...textProps } = applyStyle(rest, theme, textStyles);
 
     return <RNText style={style} {...textProps}>{children}</RNText>;
 };

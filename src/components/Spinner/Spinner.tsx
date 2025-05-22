@@ -2,7 +2,8 @@
 import { useEffect, useRef } from 'react';
 import { Animated, View, type ViewProps } from 'react-native';
 import { applyStyle, type BalladSize, type BoxProps } from '../../style';
-import { applyColor } from '../../style/Colors';
+import { applyColor } from '../../hooks/useColor';
+import { useTheme } from '../../hooks/useTheme';
 
 export interface SpinnerProps extends BoxProps, ViewProps {
     /**
@@ -65,7 +66,9 @@ export const Spinner = (props: SpinnerProps) => {
         outputRange: ['0deg', '360deg'],
     });
 
-    const { style, ...spinnerProps } = applyStyle(rest);
+    const theme = useTheme();
+
+    const { style, ...spinnerProps } = applyStyle(rest, theme);
 
     return (
         <View style={[{ width: spinnerSize, height: spinnerSize }, style]} {...spinnerProps}>
@@ -74,7 +77,7 @@ export const Spinner = (props: SpinnerProps) => {
                     width: '100%',
                     height: '100%',
                     borderWidth: thickness,
-                    borderColor: applyColor(color),
+                    borderColor: applyColor(color, theme),
                     borderTopColor: 'transparent',
                     borderRadius: spinnerSize / 2,
                     transform: [{ rotate: spin }],

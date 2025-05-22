@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs } from '@eduinteractive/balladui';
+import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select } from '@eduinteractive/balladui';
 
 type RouteParams = {
     name: string;
@@ -99,10 +99,24 @@ export const ComponentDetail = () => {
             case 'TextInput':
                 return (
                     <Box p="md">
-                        <Text fs="lg" fw="bold" mb="md">TextInput Variants</Text>
+                        <Text fs="lg" fw="bold" mb="md">TextInput Underline</Text>
                         <Flex direction="column" gap="md">
-                            <TextInput variant="underline" label="Outline Input" />
-                            <TextInput variant="default" label="Filled Input" placeholder="Filled Input" />
+                            <TextInput size="xs" variant="underline" label="Input xs" />
+                            <TextInput size="sm" variant="underline" label="Input sm" />
+                            <TextInput size="smd" variant="underline" label="Input smd" />
+                            <TextInput size="md" variant="underline" label="Input md" />
+                            <TextInput size="lg" variant="underline" label="Input lg" />
+                            <TextInput size="xl" variant="underline" label="Input xl" />
+                        </Flex>
+                        <Text fs="lg" fw="bold" mb="md">TextInput Default</Text>
+
+                        <Flex direction="column" gap="md">
+                            <TextInput size="xs" variant="default" label="Input xs" placeholder="Input xs" />
+                            <TextInput size="sm" variant="default" label="Input sm" placeholder="Input sm" />
+                            <TextInput size="smd" variant="default" label="Input smd" placeholder="Input smd" />
+                            <TextInput size="md" variant="default" label="Input md" placeholder="Input md" />
+                            <TextInput size="lg" variant="default" label="Input lg" placeholder="Input lg" />
+                            <TextInput size="xl" variant="default" label="Input xl" placeholder="Input xl" />
                         </Flex>
                     </Box>
                 );
@@ -113,7 +127,7 @@ export const ComponentDetail = () => {
                         <Text fs="lg" fw="bold" mb="md">FAB Variants</Text>
                         <Flex direction="column" gap="md" flex={1}>
                             <FAB color='dark.1' px="md" py="xs" >
-                                <Text >+ FAB</Text>
+                                <Text>+ FAB</Text>
                             </FAB>
                         </Flex>
                     </Box>
@@ -128,8 +142,155 @@ export const ComponentDetail = () => {
                                 { label: 'Tab 1', value: 'tab1', component: <Text>Content 1</Text> },
                                 { label: 'Tab 2', value: 'tab2', component: <Text>Content 2</Text> },
                                 { label: 'Tab 3', value: 'tab3', component: <Text>Content 3</Text> },
+                                { label: 'Tab 4', value: 'tab4', component: <Text>Content 4</Text> },
+                                { label: 'Tab 5', value: 'tab5', component: <Text>Content 5</Text> },
+                                { label: 'Tab 6', value: 'tab6', component: <Text>Content 6</Text> },
+                                { label: 'Tab 7', value: 'tab7', component: <Text>Content 7</Text> },
+                                { label: 'Tab 8', value: 'tab8', component: <Text>Content 8</Text> },
                             ]}
                         />
+                    </Box>
+                );
+
+            case 'Select':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">Select Variants</Text>
+                        <Flex direction="column" gap="md">
+                            <Select
+                                label="Default Select"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                    { label: 'Option 3', value: '3' },
+                                ]}
+                                placeholder="Select an option"
+                            />
+                            <Select
+                                label="Underline Select"
+                                variant="underline"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                    { label: 'Option 3', value: '3' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Select Sizes</Text>
+                        <Flex direction="column" gap="md">
+                            <Select
+                                size="xs"
+                                label="Extra Small"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                            <Select
+                                size="sm"
+                                label="Small"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                            <Select
+                                size="smd"
+                                label="Small Medium"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                            <Select
+                                size="md"
+                                label="Medium"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                            <Select
+                                size="lg"
+                                label="Large"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                            <Select
+                                size="xl"
+                                label="Extra Large"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Select with Search</Text>
+                        <Flex direction="column" gap="md">
+                            <Select
+                                label="Searchable Select"
+                                searchable
+                                options={[
+                                    { label: 'Apple', value: 'apple' },
+                                    { label: 'Banana', value: 'banana' },
+                                    { label: 'Cherry', value: 'cherry' },
+                                    { label: 'Date', value: 'date' },
+                                    { label: 'Elderberry', value: 'elderberry' },
+                                    { label: 'Fig', value: 'fig' },
+                                    { label: 'Grape', value: 'grape' },
+                                    { label: 'Honeydew', value: 'honeydew' },
+                                    { label: 'Kiwi', value: 'kiwi' },
+                                    { label: 'Lemon', value: 'lemon' },
+                                    { label: 'Lime', value: 'lime' },
+                                    { label: 'Mango', value: 'mango' },
+                                    { label: 'Melon', value: 'melon' },
+                                    { label: 'Nectarine', value: 'nectarine' },
+                                    { label: 'Orange', value: 'orange' },
+                                    { label: 'Papaya', value: 'papaya' },
+                                    { label: 'Peach', value: 'peach' },
+                                    { label: 'Pear', value: 'pear' },
+                                    { label: 'Pineapple', value: 'pineapple' },
+                                    { label: 'Plum', value: 'plum' },
+                                    { label: 'Raspberry', value: 'raspberry' },
+                                    { label: 'Strawberry', value: 'strawberry' },
+                                    { label: 'Watermelon', value: 'watermelon' },
+                                ]}
+                                renderOption={(option) => <Text c="red">{option.label}</Text>}
+                                placeholder="Search and select..."
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Select States</Text>
+                        <Flex direction="column" gap="md">
+                            <Select
+                                label="Disabled Select"
+                                disabled
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                            <Select
+                                label="Required Select"
+                                required
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                            <Select
+                                label="Error Select"
+                                error="This field is required"
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                ]}
+                            />
+                        </Flex>
                     </Box>
                 );
 

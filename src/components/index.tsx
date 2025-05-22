@@ -5,6 +5,7 @@ export * from './Card';
 export * from './Divider';
 export * from './FAB';
 export * from './Flex';
+export * from './Select';
 export * from './Space';
 export * from './Spinner';
 export * from './Tabs';

@@ -2,10 +2,10 @@
 import { useContext } from "react";
 import { BalladContext } from "../BalladUIProvider";
 
-export const useColors = () => {
+export const useTheme = () => {
     const context = useContext(BalladContext);
     if (context === undefined) {
-        throw new Error('useColors must be used within a BalladUIProvider');
+        throw new Error('useTheme must be used within a BalladUIProvider');
     }
     return {
         colors: context.theme.colors,

@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { applySizeProp, applyStyle, type BalladSize, type BoxProps } from "../../style";
-import { applyColor } from "../../style/Colors";
+import { applyColor } from "../../hooks/useColor";
+import { useTheme } from "../../hooks/useTheme";
 
 export interface DividerProps extends BoxProps {
     /**
@@ -17,9 +18,11 @@ export interface DividerProps extends BoxProps {
 export const Divider = (props: DividerProps) => {
     let { color, size, ...rest } = props;
 
-    const { style, ...viewProps } = applyStyle(rest, {
+    const theme = useTheme();
+
+    const { style, ...viewProps } = applyStyle(rest, theme, {
         width: rest.w ?? '100%',
-        borderTopColor: color ? applyColor(color) : 'gray',
+        borderTopColor: color ? applyColor(color, theme) : 'gray',
         borderTopWidth: size ? applySizeProp(size) : 1
     });
 

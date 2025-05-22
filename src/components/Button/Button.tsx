@@ -1,8 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 import { ActivityIndicator, Text, TouchableOpacity, type TouchableOpacityProps } from 'react-native';
 import { applyFontSizeProp, applySizeProp, applyStyle, type BalladSize, type BoxProps } from '../../style';
-import { applyColor } from '../../style/Colors';
 import { Flex } from '../Flex';
+import type { BalladTheme } from '../../BalladUIProvider';
+import { applyColor } from '../../hooks/useColor';
+import { useTheme } from '../../hooks/useTheme';
 
 export type ButtonVariant = 'subtle' | 'light' | 'default' | 'filled' | 'outline';
 
@@ -65,9 +66,9 @@ export interface ButtonProps extends BoxProps, TouchableOpacityProps {
     onPress?: () => void;
 }
 
-const getVariantStyles = (variant: ButtonVariant, color: string, disabled: boolean) => {
-    const baseColor = applyColor(color);
-    const disabledColor = applyColor('gray.3');
+const getVariantStyles = (variant: ButtonVariant, color: string, disabled: boolean, theme: BalladTheme) => {
+    const baseColor = applyColor(color, theme);
+    const disabledColor = applyColor('gray.3', theme);
 
     switch (variant) {
         case 'subtle':
@@ -100,10 +101,10 @@ const getVariantStyles = (variant: ButtonVariant, color: string, disabled: boole
     }
 };
 
-const getTextColor = (variant: ButtonVariant, color: string, disabled: boolean) => {
-    if (disabled) return applyColor('gray.5');
+const getTextColor = (variant: ButtonVariant, color: string, disabled: boolean, theme: BalladTheme) => {
+    if (disabled) return applyColor('gray.5', theme);
     if (variant === 'filled') return '#FFFFFF';
-    return applyColor(color);
+    return applyColor(color, theme);
 };
 
 const getPadding = (size: BalladSize): Partial<BoxProps> => {
@@ -112,6 +113,10 @@ const getPadding = (size: BalladSize): Partial<BoxProps> => {
             return { px: 'xs', py: 'xs' };
         case 'sm':
             return { px: 'sm', py: 'xs' };
+        case 'smd':
+            return { px: 'smd', py: 'xs' };
+        case 'md':
+            return { px: 'md', py: 'sm' };
         case 'lg':
             return { px: 'lg', py: 'md' };
         case 'xl':
@@ -136,22 +141,25 @@ export const Button = (props: ButtonProps) => {
         ...rest
     } = props;
 
-    const variantStyles = getVariantStyles(variant, color, disabled);
-    const textColor = getTextColor(variant, color, disabled);
+    const theme = useTheme();
+    const variantStyles = getVariantStyles(variant, color, disabled, theme);
+    const textColor = getTextColor(variant, color, disabled, theme);
     const padding = getPadding(size);
 
     const { style, ...buttonProps } = applyStyle(
         {
-            ...rest,
             ...padding,
-        }, {
-        ...variantStyles,
-        borderRadius: applySizeProp(radius),
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        opacity: disabled ? 0.6 : 1,
-    }
+            ...rest,
+        },
+        theme,
+        {
+            ...variantStyles,
+            borderRadius: applySizeProp(radius),
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: disabled ? 0.6 : 1,
+        }
     );
 
     return (

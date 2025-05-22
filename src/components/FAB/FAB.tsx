@@ -1,7 +1,8 @@
 import { TouchableOpacity, type TouchableOpacityProps } from 'react-native';
 import { applyStyle, type BoxProps, type BalladSize } from '../../style';
 import { applySizeProp } from '../../style/Size';
-import { applyColor } from '../../style/Colors';
+import { applyColor } from '../../hooks/useColor';
+import { useTheme } from '../../hooks/useTheme';
 
 export type FabPlacement = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 
@@ -72,16 +73,17 @@ export const FAB = (props: FABProps) => {
         ...rest
     } = props;
 
+    const theme = useTheme();
     const placementStyles = getPlacementStyles(placement, space);
-    const baseColor = applyColor(color);
+    const baseColor = applyColor(color, theme);
 
     const { style, ...fabProps } = applyStyle(
         {
             ...rest,
             p: props.p ?? "md"
-        }, {
+        }, theme, {
         ...placementStyles,
-        backgroundColor: disabled ? applyColor('gray.3') : baseColor,
+        backgroundColor: disabled ? applyColor('gray.3', theme) : baseColor,
         alignItems: 'center',
         justifyContent: 'center',
         opacity: disabled ? 0.6 : 1,

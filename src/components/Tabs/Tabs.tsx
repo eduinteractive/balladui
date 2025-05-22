@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Animated, ScrollView, Text, TouchableOpacity, View, type StyleProp, type ViewStyle, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { ScrollView, Text, TouchableOpacity, View, type StyleProp, type ViewStyle, StyleSheet } from "react-native";
 import { applySizeProp, applyStyle, type BoxProps } from "../../style";
 import { Flex } from "../Flex";
-import { applyColor } from "../../style/Colors";
+import { applyColor } from "../../hooks/useColor";
+import { useTheme } from "../../hooks/useTheme";
 
 export interface TabItem {
     value: string;
@@ -61,94 +62,46 @@ export const Tabs: React.FC<TabsProps> = ({
     ...props
 }: TabsProps) => {
     const [activeTab, setActiveTab] = useState(initialValue || value);
-    const [indicatorPosition] = useState(new Animated.Value(0));
-    const [indicatorWidth] = useState(new Animated.Value(0));
-    const [fadeAnim] = useState(new Animated.Value(1));
-    const tabRefs = useRef<View[]>([]);
+    const theme = useTheme();
 
-    const { style, ...viewProps } = applyStyle(props, {
+    const { style, ...viewProps } = applyStyle(props, theme, {
         flex: 1,
     });
 
-    const handleTabPress = useCallback((newValue: string, index: number) => {
-        // Fade out current content
-        Animated.timing(fadeAnim, {
-            toValue: 0,
-            duration: 150,
-            useNativeDriver: true,
-        }).start(() => {
-            // Change tab and fade in new content
-            setActiveTab(newValue);
-            onTabChange?.(newValue);
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 150,
-                useNativeDriver: true,
-            }).start();
-        });
-
-        tabRefs.current[index]?.measure((_x, _y, width, _height, pageX) => {
-            Animated.parallel([
-                Animated.spring(indicatorPosition, {
-                    toValue: pageX,
-                    useNativeDriver: false,
-                    tension: 50,
-                    friction: 7,
-                }),
-                Animated.spring(indicatorWidth, {
-                    toValue: width,
-                    useNativeDriver: false,
-                    tension: 50,
-                    friction: 7,
-                }),
-            ]).start();
-        });
-    }, [fadeAnim, indicatorPosition, indicatorWidth, onTabChange]);
-
-    useEffect(() => {
-        if (value) {
-            const index = tabs.findIndex((tab) => tab.value === value);
-            if (index !== -1) {
-                handleTabPress(value, index);
-            }
-        } else if (initialValue) {
-            const index = tabs.findIndex((tab) => tab.value === initialValue);
-            if (index !== -1) {
-                handleTabPress(initialValue, index);
-            }
-        }
-    }, [initialValue, tabs, handleTabPress, value]);
+    const handleTabPress = (newValue: string) => {
+        setActiveTab(newValue);
+        onTabChange?.(newValue);
+    };
 
     return (
         <View style={style} {...viewProps}>
             <View style={{
                 borderBottomWidth: 1,
-                borderBottomColor: applyColor(inactiveColor || "gray.3"),
+                borderBottomColor: applyColor(inactiveColor || "gray.3", theme),
             }}>
                 <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 >
                     <Flex direction="row" gap={applySizeProp("sm")}>
-                        {tabs.map((tab, index) => {
+                        {tabs.map((tab) => {
                             const isActive = tab.value === activeTab;
                             return (
                                 <TouchableOpacity
                                     key={tab.value}
-                                    onPress={() => handleTabPress(tab.value, index)}
+                                    onPress={() => handleTabPress(tab.value)}
                                 >
                                     <View
-                                        ref={(ref) => {
-                                            if (ref) tabRefs.current[index] = ref;
-                                        }}
                                         style={{
                                             paddingHorizontal: applySizeProp("sm"),
                                             paddingVertical: applySizeProp("sm"),
+                                            borderBottomWidth: 2,
+                                            borderBottomColor: isActive ? applyColor(activeColor || "primary.7", theme) : "transparent",
                                         }}
                                     >
                                         <Text
                                             style={{
-                                                color: isActive ? applyColor(activeColor) : applyColor(inactiveColor),
+                                                color: isActive ? applyColor(activeColor, theme) : applyColor(inactiveColor, theme),
                                             }}
                                         >
                                             {tab.label}
@@ -159,28 +112,13 @@ export const Tabs: React.FC<TabsProps> = ({
                         })}
                     </Flex>
                 </ScrollView>
-                <Animated.View
-                    style={{
-                        position: "absolute",
-                        bottom: 0,
-                        height: 2,
-                        backgroundColor: applyColor(activeColor || "primary.7"),
-                        width: indicatorWidth,
-                        transform: [
-                            {
-                                translateX: indicatorPosition,
-                            },
-                        ],
-                    }}
-                />
             </View>
-            <Animated.View style={{
-                opacity: fadeAnim,
+            <View style={{
                 flex: 1,
                 ...StyleSheet.flatten(styles?.contentContainer),
             }}>
                 {tabs.find((tab) => tab.value === activeTab)?.component}
-            </Animated.View>
+            </View>
         </View>
     );
 };

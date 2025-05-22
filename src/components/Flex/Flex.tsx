@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 import { applySizeProp, applyStyle, type BalladSize, type BoxProps } from '../../style';
+import { useTheme } from '../../hooks/useTheme';
 
 export interface FlexProps extends BoxProps {
     /**
@@ -41,6 +42,7 @@ export interface FlexProps extends BoxProps {
 
 const Flex = (props: FlexProps) => {
     const { children, direction, justify, align, wrap, gap, ...rest } = props;
+    const theme = useTheme();
 
     const flexStyles = {
         flexDirection: direction ?? 'row',
@@ -50,7 +52,7 @@ const Flex = (props: FlexProps) => {
         gap: applySizeProp(gap),
     };
 
-    const { style, ...viewProps } = applyStyle(rest, flexStyles);
+    const { style, ...viewProps } = applyStyle(rest, theme, flexStyles);
 
     return <View style={style} {...viewProps}>{children}</View>;
 };
