@@ -10,6 +10,11 @@ import type { BalladTheme } from '../../BalladUIProvider';
 
 export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'> {
     /**
+     * The color of the input.
+     */
+    color?: string;
+
+    /**
      * The label of the input.
      */
     label?: string;
@@ -172,6 +177,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
         leftSection,
         rightSection,
         value,
+        color,
         ...rest
     } = props;
 
@@ -207,7 +213,10 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
             ...rest,
         },
         theme,
-        inputStyles
+        {
+            ...inputStyles,
+            color: color ?? applyColor('gray.9', theme),
+        }
     );
 
     return (

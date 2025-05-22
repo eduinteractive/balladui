@@ -70,6 +70,11 @@ export interface SelectProps extends BoxProps {
     placeholder?: string;
 
     /**
+     * The color of the select input.
+     */
+    color?: string;
+
+    /**
      * The error message to display.
      */
     error?: string;
@@ -152,6 +157,7 @@ export const Select = (props: SelectProps): React.ReactNode => {
         label,
         placeholder = '',
         error,
+        color,
         size = 'md',
         radius = 'xs',
         disabled = false,
@@ -243,6 +249,7 @@ export const Select = (props: SelectProps): React.ReactNode => {
                         rightSection={rightSection ?? defaultRightSection}
                         value={selectedOption?.label}
                         editable={false}
+                        color={color}
                         {...rest}
                     />
                 </View>
