@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, Pressable, ScrollView, type ViewStyle, type TextStyle } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { type BoxProps, type BalladSize } from '../../style';
@@ -181,6 +181,10 @@ export const Select = (props: SelectProps): React.ReactNode => {
     const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(
         options.find(option => option.value === value)
     );
+
+    useEffect(() => {
+        setSelectedOption(options.find(option => option.value === value));
+    }, [value, options]);
 
     const filteredOptions = options.filter(option =>
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
