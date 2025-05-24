@@ -192,7 +192,7 @@ export const Select = (props: SelectProps): React.ReactNode => {
 
     const handleSelect = (option: SelectOption) => {
         setSelectedOption(option === selectedOption ? undefined : option);
-        onChange?.(option.value);
+        onChange?.(option === selectedOption ? '' : option.value);
         setIsOpen(false);
         setSearchQuery('');
     };
