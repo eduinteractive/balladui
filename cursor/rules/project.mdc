@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Always scan the existing components in the library and use existing patterns when creating or implementing new patterns
+- Never use external libraries when not prompted
+- When creating or updating a component then update the example app accordingly at example/src/**/*

@@ -12,6 +12,8 @@ type RootStackParamList = {
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const components = [
+    { name: 'Avatar', description: 'User avatar component with adjustable radius for circles or rounded boxes' },
+    { name: 'Badge', description: 'Small badge component for labels, status indicators, and notifications' },
     { name: 'Box', description: 'A basic container component' },
     { name: 'Button', description: 'Interactive button component with various styles' },
     { name: 'Card', description: 'Container component with elevation and border radius' },

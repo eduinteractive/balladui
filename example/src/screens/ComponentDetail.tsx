@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select } from '@eduinteractive/balladui';
+import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge } from '@eduinteractive/balladui';
 
 type RouteParams = {
     name: string;
@@ -290,6 +290,175 @@ export const ComponentDetail = () => {
                                     { label: 'Option 2', value: '2' },
                                 ]}
                             />
+                        </Flex>
+                    </Box>
+                );
+
+            case 'Avatar':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">Avatar Sizes</Text>
+                        <Flex direction="row" gap="md" align="center">
+                            <Avatar size="xs" radius={9999}>XS</Avatar>
+                            <Avatar size="sm" radius={9999}>SM</Avatar>
+                            <Avatar size="smd" radius={9999}>SMD</Avatar>
+                            <Avatar size="md" radius={9999}>MD</Avatar>
+                            <Avatar size="lg" radius={9999}>LG</Avatar>
+                            <Avatar size="xl" radius={9999}>XL</Avatar>
+                            <Avatar size="2xl" radius={9999}>2XL</Avatar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Avatar Shapes</Text>
+                        <Flex direction="row" gap="md" align="center">
+                            <Avatar size="lg" radius="xs">XS</Avatar>
+                            <Avatar size="lg" radius="sm">SM</Avatar>
+                            <Avatar size="lg" radius="smd">SMD</Avatar>
+                            <Avatar size="lg" radius="md">MD</Avatar>
+                            <Avatar size="lg" radius="lg">LG</Avatar>
+                            <Avatar size="lg" radius="xl">XL</Avatar>
+                            <Avatar size="lg" radius={9999}>○</Avatar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Avatar Colors</Text>
+                        <Flex direction="row" gap="md" align="center">
+                            <Avatar size="md" radius={9999} color="primary">PR</Avatar>
+                            <Avatar size="md" radius={9999} color="blue">BL</Avatar>
+                            <Avatar size="md" radius={9999} color="green">GR</Avatar>
+                            <Avatar size="md" radius={9999} color="red">RD</Avatar>
+                            <Avatar size="md" radius={9999} color="yellow">YL</Avatar>
+                            <Avatar size="md" radius={9999} color="gray">GY</Avatar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Avatar with Images</Text>
+                        <Flex direction="row" gap="md" align="center">
+                            <Avatar
+                                size="md"
+                                radius={9999}
+                                src="https://picsum.photos/100/100?random=1"
+                                alt="Random avatar 1"
+                            />
+                            <Avatar
+                                size="md"
+                                radius="md"
+                                src="https://picsum.photos/100/100?random=2"
+                                alt="Random avatar 2"
+                            />
+                            <Avatar
+                                size="lg"
+                                radius={9999}
+                                src="https://picsum.photos/100/100?random=3"
+                                alt="Random avatar 3"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Custom Text Colors</Text>
+                        <Flex direction="row" gap="md" align="center">
+                            <Avatar size="md" radius={9999} color="gray.1" textColor="black">LT</Avatar>
+                            <Avatar size="md" radius={9999} color="gray.9" textColor="white">DK</Avatar>
+                            <Avatar size="md" radius={9999} color="red" textColor="yellow">CU</Avatar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Avatar Initials</Text>
+                        <Flex direction="row" gap="md" align="center">
+                            <Avatar size="sm" radius={9999} color="primary">JD</Avatar>
+                            <Avatar size="md" radius={9999} color="blue">AB</Avatar>
+                            <Avatar size="lg" radius={9999} color="green">CD</Avatar>
+                            <Avatar size="sm" radius="md" color="red">EF</Avatar>
+                            <Avatar size="md" radius="lg" color="purple">GH</Avatar>
+                        </Flex>
+                    </Box>
+                );
+
+            case 'Badge':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">Badge Variants</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge variant="filled">Filled</Badge>
+                            <Badge variant="outline">Outline</Badge>
+                            <Badge variant="light">Light</Badge>
+                            <Badge variant="subtle">Subtle</Badge>
+                            <Badge variant="dot" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Badge Sizes</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge size="xs">XS</Badge>
+                            <Badge size="sm">SM</Badge>
+                            <Badge size="smd">SMD</Badge>
+                            <Badge size="md">MD</Badge>
+                            <Badge size="lg">LG</Badge>
+                            <Badge size="xl">XL</Badge>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Badge Colors</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge color="primary">Primary</Badge>
+                            <Badge color="blue">Blue</Badge>
+                            <Badge color="green">Green</Badge>
+                            <Badge color="red">Red</Badge>
+                            <Badge color="yellow">Yellow</Badge>
+                            <Badge color="gray">Gray</Badge>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Badge with Sections</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge leftSection={<Text style={{ fontSize: 10 }}>•</Text>}>With Left</Badge>
+                            <Badge rightSection={<Text style={{ fontSize: 10 }}>×</Text>}>With Right</Badge>
+                            <Badge
+                                leftSection={<Text style={{ fontSize: 10 }}>→</Text>}
+                                rightSection={<Text style={{ fontSize: 10 }}>←</Text>}
+                            >
+                                Both Sides
+                            </Badge>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Badge Shapes</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge radius="xs">Sharp</Badge>
+                            <Badge radius="sm">Small</Badge>
+                            <Badge radius="md">Medium</Badge>
+                            <Badge radius="lg">Large</Badge>
+                            <Badge radius="xl">Extra Large</Badge>
+                            <Badge radius={9999}>Pill</Badge>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Status Badges</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge variant="dot" color="green" />
+                            <Badge variant="dot" color="red" />
+                            <Badge variant="dot" color="yellow" />
+                            <Badge variant="dot" color="gray" />
+                            <Badge color="green" size="xs">Online</Badge>
+                            <Badge color="red" size="xs">Offline</Badge>
+                            <Badge color="yellow" size="xs">Away</Badge>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Number Badges</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge size="xs" color="red">1</Badge>
+                            <Badge size="xs" color="red">12</Badge>
+                            <Badge size="xs" color="red">99+</Badge>
+                            <Badge size="sm" color="blue">New</Badge>
+                            <Badge size="sm" color="green">5 messages</Badge>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Outline Variants</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge variant="outline" color="primary">Primary</Badge>
+                            <Badge variant="outline" color="blue">Blue</Badge>
+                            <Badge variant="outline" color="green">Success</Badge>
+                            <Badge variant="outline" color="red">Error</Badge>
+                            <Badge variant="outline" color="yellow">Warning</Badge>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Light Variants</Text>
+                        <Flex direction="row" gap="md" align="center" wrap="wrap">
+                            <Badge variant="light" color="primary">Primary</Badge>
+                            <Badge variant="light" color="blue">Info</Badge>
+                            <Badge variant="light" color="green">Success</Badge>
+                            <Badge variant="light" color="red">Error</Badge>
+                            <Badge variant="light" color="yellow">Warning</Badge>
                         </Flex>
                     </Box>
                 );
