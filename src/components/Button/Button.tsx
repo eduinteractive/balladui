@@ -187,7 +187,7 @@ export const Button = (props: ButtonProps) => {
                 </Text>
             ) : (
                 <Flex direction="row" align="center" justify="center" gap="xs">
-                    {loading ? loadingText : children}
+                    <Text style={{ color: textColor }}>{loading ? loadingText : children}</Text>
                 </Flex>
             )}
         </TouchableOpacity>
