@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge } from '@eduinteractive/balladui';
+import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox } from '@eduinteractive/balladui';
 
 type RouteParams = {
     name: string;
@@ -71,6 +71,115 @@ export const ComponentDetail = () => {
                             <Card variant="filled">
                                 <Text>Filled Card</Text>
                             </Card>
+                        </Flex>
+                    </Box>
+                );
+
+            case 'Checkbox':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">Basic Checkboxes</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox label="Unchecked checkbox" />
+                            <Checkbox checked label="Checked checkbox" />
+                            <Checkbox indeterminate label="Indeterminate checkbox" />
+                            <Checkbox disabled label="Disabled checkbox" />
+                            <Checkbox checked disabled label="Disabled checked checkbox" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Checkbox Variants</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox variant="filled" checked label="Filled variant" />
+                            <Checkbox variant="outline" checked label="Outline variant" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Checkbox Sizes</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox size="xs" checked label="Extra Small" />
+                            <Checkbox size="sm" checked label="Small" />
+                            <Checkbox size="smd" checked label="Small Medium" />
+                            <Checkbox size="md" checked label="Medium" />
+                            <Checkbox size="lg" checked label="Large" />
+                            <Checkbox size="xl" checked label="Extra Large" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Checkbox Colors</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox checked color="primary" label="Primary" />
+                            <Checkbox checked color="blue" label="Blue" />
+                            <Checkbox checked color="green" label="Green" />
+                            <Checkbox checked color="red" label="Red" />
+                            <Checkbox checked color="yellow" label="Yellow" />
+                            <Checkbox checked color="gray" label="Gray" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">With Descriptions</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox
+                                label="Terms and Conditions"
+                                description="I agree to the terms and conditions and privacy policy"
+                            />
+                            <Checkbox
+                                checked
+                                label="Newsletter Subscription"
+                                description="Receive updates about new features and products"
+                            />
+                            <Checkbox
+                                label="Marketing Communications"
+                                description="Allow us to send you promotional emails and offers"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Label Positions</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox checked labelPosition="right" label="Label on the right (default)" />
+                            <Checkbox checked labelPosition="left" label="Label on the left" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Error States</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox
+                                error
+                                errorMessage="This field is required"
+                                label="Required checkbox"
+                            />
+                            <Checkbox
+                                checked
+                                error
+                                errorMessage="Invalid selection"
+                                label="Checkbox with error"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Custom Styling</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox
+                                checked
+                                radius="md"
+                                label="Rounded checkbox"
+                                labelSize="md"
+                            />
+                            <Checkbox
+                                checked
+                                radius="xl"
+                                color="purple"
+                                label="Purple rounded checkbox"
+                                labelColor="purple"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Interactive Examples</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox
+                                label="Toggle me"
+                                description="Click to toggle this checkbox"
+                                onChange={(checked) => console.log('Checkbox changed:', checked)}
+                            />
+                            <Checkbox
+                                indeterminate
+                                label="Indeterminate state"
+                                description="This checkbox is in an indeterminate state"
+                            />
                         </Flex>
                     </Box>
                 );

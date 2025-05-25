@@ -17,6 +17,7 @@ const components = [
     { name: 'Box', description: 'A basic container component' },
     { name: 'Button', description: 'Interactive button component with various styles' },
     { name: 'Card', description: 'Container component with elevation and border radius' },
+    { name: 'Checkbox', description: 'Checkbox input component with labels, descriptions, and validation' },
     { name: 'Divider', description: 'Horizontal or vertical divider line' },
     { name: 'FAB', description: 'Floating Action Button component' },
     { name: 'Flex', description: 'Flexbox container component' },
