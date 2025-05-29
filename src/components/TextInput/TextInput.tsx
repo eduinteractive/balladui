@@ -7,6 +7,7 @@ import Flex from '../Flex/Flex';
 import { useEffect, useRef, useState, forwardRef } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import type { BalladTheme } from '../../BalladUIProvider';
+import { Box } from '../Box';
 
 export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'> {
     /**
@@ -220,59 +221,61 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, forward
     );
 
     return (
-        <Flex direction="column" w="100%">
-            <View style={{ position: 'relative' }}>
-                {variant === 'underline' && label && (
-                    <Pressable onPress={handleLabelPress}>
-                        <Animated.Text style={floatingLabelStyles}>
-                            {label}
-                            {required && <Text style={{ color: applyColor('red', theme) }}> *</Text>}
-                        </Animated.Text>
-                    </Pressable>
-                )}
-                {variant === 'default' && label && (
-                    <Pressable onPress={handleLabelPress} style={defaultPressableStyles}>
-                        <Text style={defaultLabelStyles}>
-                            {label}
-                            {required && <Text style={{ color: applyColor('red', theme) }}> *</Text>}
-                        </Text>
-                    </Pressable>
-                )}
-                <RNTextInput
-                    placeholder={placeholder}
-                    placeholderTextColor={applyColor('gray.4', theme)}
-                    editable={!disabled}
-                    style={[style, { zIndex: 1 }]}
-                    ref={(node) => {
-                        if (typeof forwardedRef === 'function') {
-                            forwardedRef(node);
-                        } else if (forwardedRef) {
-                            forwardedRef.current = node;
-                        }
-                        inputRef.current = node;
-                    }}
-                    value={value}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    onChangeText={(text) => {
-                        setIsEmpty(text === '');
-                        inputProps.onChangeText?.(text);
-                    }}
-                    {...inputProps}
-                />
-                {leftSection && (
-                    <View style={leftSectionStyles}>
-                        {leftSection}
-                    </View>
-                )}
-                {rightSection && (
-                    <View style={rightSectionStyles}>
-                        {rightSection}
-                    </View>
-                )}
-            </View>
-            {error && <Text style={errorStyles}>{error}</Text>}
-        </Flex>
+        <Box flex={1}>
+            <Flex direction="column" w="100%">
+                <View style={{ position: 'relative' }}>
+                    {variant === 'underline' && label && (
+                        <Pressable onPress={handleLabelPress}>
+                            <Animated.Text style={floatingLabelStyles}>
+                                {label}
+                                {required && <Text style={{ color: applyColor('red', theme) }}> *</Text>}
+                            </Animated.Text>
+                        </Pressable>
+                    )}
+                    {variant === 'default' && label && (
+                        <Pressable onPress={handleLabelPress} style={defaultPressableStyles}>
+                            <Text style={defaultLabelStyles}>
+                                {label}
+                                {required && <Text style={{ color: applyColor('red', theme) }}> *</Text>}
+                            </Text>
+                        </Pressable>
+                    )}
+                    <RNTextInput
+                        placeholder={placeholder}
+                        placeholderTextColor={applyColor('gray.4', theme)}
+                        editable={!disabled}
+                        style={[style, { zIndex: 1 }]}
+                        ref={(node) => {
+                            if (typeof forwardedRef === 'function') {
+                                forwardedRef(node);
+                            } else if (forwardedRef) {
+                                forwardedRef.current = node;
+                            }
+                            inputRef.current = node;
+                        }}
+                        value={value}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        onChangeText={(text) => {
+                            setIsEmpty(text === '');
+                            inputProps.onChangeText?.(text);
+                        }}
+                        {...inputProps}
+                    />
+                    {leftSection && (
+                        <View style={leftSectionStyles}>
+                            {leftSection}
+                        </View>
+                    )}
+                    {rightSection && (
+                        <View style={rightSectionStyles}>
+                            {rightSection}
+                        </View>
+                    )}
+                </View>
+                {error && <Text style={errorStyles}>{error}</Text>}
+            </Flex>
+        </Box>
     );
 });
 
