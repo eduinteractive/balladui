@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox } from '@eduinteractive/balladui';
+import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox, Multiselect, DateInput, TimeInput } from '@eduinteractive/balladui';
 
 type RouteParams = {
     name: string;
@@ -226,6 +226,324 @@ export const ComponentDetail = () => {
                             <TextInput size="md" variant="default" label="Input md" placeholder="Input md" />
                             <TextInput size="lg" variant="default" label="Input lg" placeholder="Input lg" />
                             <TextInput size="xl" variant="default" label="Input xl" placeholder="Input xl" />
+                        </Flex>
+                    </Box>
+                );
+
+            case 'DateInput':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">DateInput Variants</Text>
+                        <Flex direction="column" gap="md">
+                            <DateInput
+                                label="Default Date Input"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Date changed:', { date, formatted, isValid })
+                                }
+                            />
+                            <DateInput
+                                label="Underline Date Input"
+                                variant="underline"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Date changed:', { date, formatted, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">DateInput Sizes</Text>
+                        <Flex direction="column" gap="md">
+                            <DateInput size="xs" label="Extra Small" />
+                            <DateInput size="sm" label="Small" />
+                            <DateInput size="smd" label="Small Medium" />
+                            <DateInput size="md" label="Medium" />
+                            <DateInput size="lg" label="Large" />
+                            <DateInput size="xl" label="Extra Large" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">DateInput with Values</Text>
+                        <Flex direction="column" gap="md">
+                            <DateInput
+                                label="Pre-filled Date"
+                                value="2024-01-15"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Date changed:', { date, formatted, isValid })
+                                }
+                            />
+                            <DateInput
+                                label="Today's Date"
+                                value={new Date()}
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Date changed:', { date, formatted, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">DateInput with Validation</Text>
+                        <Flex direction="column" gap="md">
+                            <DateInput
+                                label="Date with Min/Max Range"
+                                minDate="2024-01-01"
+                                maxDate="2024-12-31"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Date validation:', { date, formatted, isValid })
+                                }
+                            />
+                            <DateInput
+                                label="Future Dates Only"
+                                minDate={new Date()}
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Future date:', { date, formatted, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">DateInput States</Text>
+                        <Flex direction="column" gap="md">
+                            <DateInput
+                                label="Required Date"
+                                required
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Required date:', { date, formatted, isValid })
+                                }
+                            />
+                            <DateInput
+                                label="Disabled Date Input"
+                                disabled
+                                value="2024-01-15"
+                            />
+                            <DateInput
+                                label="Date with Error"
+                                error="Please enter a valid date"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">DateInput Customization</Text>
+                        <Flex direction="column" gap="md">
+                            <DateInput
+                                label="Without Calendar Icon"
+                                withIcon={false}
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('No icon date:', { date, formatted, isValid })
+                                }
+                            />
+                            <DateInput
+                                label="Custom Error Messages"
+                                invalidDateMessage="Please enter a date in DD.MM.YYYY format"
+                                dateRangeMessage="Date must be between 2020 and 2030"
+                                minDate="2020-01-01"
+                                maxDate="2030-12-31"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Custom messages:', { date, formatted, isValid })
+                                }
+                            />
+                            <DateInput
+                                label="Colored Date Input"
+                                color="blue"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Colored date:', { date, formatted, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">DateInput with Different Radius</Text>
+                        <Flex direction="column" gap="md">
+                            <DateInput
+                                label="Sharp Corners"
+                                radius="xs"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Sharp date:', { date, formatted, isValid })
+                                }
+                            />
+                            <DateInput
+                                label="Rounded Corners"
+                                radius="lg"
+                                onChange={(date, formatted, isValid) =>
+                                    console.log('Rounded date:', { date, formatted, isValid })
+                                }
+                            />
+                        </Flex>
+                    </Box>
+                );
+
+            case 'TimeInput':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">TimeInput Variants</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Default Time Input"
+                                onChange={(time, isValid) =>
+                                    console.log('Time changed:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Underline Time Input"
+                                variant="underline"
+                                onChange={(time, isValid) =>
+                                    console.log('Time changed:', { time, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TimeInput Sizes</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput size="xs" label="Extra Small" />
+                            <TimeInput size="sm" label="Small" />
+                            <TimeInput size="smd" label="Small Medium" />
+                            <TimeInput size="md" label="Medium" />
+                            <TimeInput size="lg" label="Large" />
+                            <TimeInput size="xl" label="Extra Large" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TimeInput with Values</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Pre-filled Time"
+                                value="14:30"
+                                onChange={(time, isValid) =>
+                                    console.log('Time changed:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Morning Time"
+                                value="09:00"
+                                onChange={(time, isValid) =>
+                                    console.log('Time changed:', { time, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TimeInput with Seconds</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Time with Seconds"
+                                withSeconds
+                                value="14:30:45"
+                                onChange={(time, isValid) =>
+                                    console.log('Time with seconds:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Precise Time Entry"
+                                withSeconds
+                                onChange={(time, isValid) =>
+                                    console.log('Precise time:', { time, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TimeInput with Validation</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Business Hours (9 AM - 5 PM)"
+                                minTime="09:00"
+                                maxTime="17:00"
+                                onChange={(time, isValid) =>
+                                    console.log('Business hours:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Evening Hours Only"
+                                minTime="18:00"
+                                maxTime="23:59"
+                                onChange={(time, isValid) =>
+                                    console.log('Evening time:', { time, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TimeInput States</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Required Time"
+                                required
+                                onChange={(time, isValid) =>
+                                    console.log('Required time:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Disabled Time Input"
+                                disabled
+                                value="12:00"
+                            />
+                            <TimeInput
+                                label="Time with Error"
+                                error="Please enter a valid time"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TimeInput Customization</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Without Clock Icon"
+                                withIcon={false}
+                                onChange={(time, isValid) =>
+                                    console.log('No icon time:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Custom Error Messages"
+                                invalidTimeMessage="Please enter time in HH:MM format"
+                                timeRangeMessage="Time must be between 8 AM and 6 PM"
+                                minTime="08:00"
+                                maxTime="18:00"
+                                onChange={(time, isValid) =>
+                                    console.log('Custom messages:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Colored Time Input"
+                                color="blue"
+                                onChange={(time, isValid) =>
+                                    console.log('Colored time:', { time, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TimeInput with Different Radius</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Sharp Corners"
+                                radius="xs"
+                                onChange={(time, isValid) =>
+                                    console.log('Sharp time:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Rounded Corners"
+                                radius="lg"
+                                onChange={(time, isValid) =>
+                                    console.log('Rounded time:', { time, isValid })
+                                }
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Common Time Scenarios</Text>
+                        <Flex direction="column" gap="md">
+                            <TimeInput
+                                label="Appointment Time"
+                                value="10:30"
+                                minTime="08:00"
+                                maxTime="18:00"
+                                onChange={(time, isValid) =>
+                                    console.log('Appointment:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Meeting Duration (with seconds)"
+                                withSeconds
+                                value="01:30:00"
+                                onChange={(time, isValid) =>
+                                    console.log('Duration:', { time, isValid })
+                                }
+                            />
+                            <TimeInput
+                                label="Alarm Time"
+                                value="07:00"
+                                onChange={(time, isValid) =>
+                                    console.log('Alarm:', { time, isValid })
+                                }
+                            />
                         </Flex>
                     </Box>
                 );
@@ -568,6 +886,176 @@ export const ComponentDetail = () => {
                             <Badge variant="light" color="green">Success</Badge>
                             <Badge variant="light" color="red">Error</Badge>
                             <Badge variant="light" color="yellow">Warning</Badge>
+                        </Flex>
+                    </Box>
+                );
+
+            case 'Multiselect':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">Basic Multiselect</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Basic Multiselect"
+                                placeholder="Select multiple options..."
+                                options={[
+                                    { label: 'Option 1', value: '1' },
+                                    { label: 'Option 2', value: '2' },
+                                    { label: 'Option 3', value: '3' },
+                                    { label: 'Option 4', value: '4' },
+                                    { label: 'Option 5', value: '5' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">With Search</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Searchable Multiselect"
+                                searchable
+                                options={[
+                                    { label: 'Apple', value: 'apple' },
+                                    { label: 'Banana', value: 'banana' },
+                                    { label: 'Cherry', value: 'cherry' },
+                                    { label: 'Date', value: 'date' },
+                                    { label: 'Elderberry', value: 'elderberry' },
+                                    { label: 'Fig', value: 'fig' },
+                                    { label: 'Grape', value: 'grape' },
+                                    { label: 'Honeydew', value: 'honeydew' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Maximum Selections</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Max 3 Selections"
+                                maxSelections={3}
+                                maxSelectionsMessage="You can only select up to 3 items"
+                                options={[
+                                    { label: 'Red', value: 'red' },
+                                    { label: 'Blue', value: 'blue' },
+                                    { label: 'Green', value: 'green' },
+                                    { label: 'Yellow', value: 'yellow' },
+                                    { label: 'Purple', value: 'purple' },
+                                    { label: 'Orange', value: 'orange' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Without Tags</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="No Tags Display"
+                                withTags={false}
+                                options={[
+                                    { label: 'JavaScript', value: 'js' },
+                                    { label: 'TypeScript', value: 'ts' },
+                                    { label: 'React', value: 'react' },
+                                    { label: 'React Native', value: 'rn' },
+                                    { label: 'Node.js', value: 'node' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Without Checkboxes</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="No Checkboxes"
+                                withCheckboxes={false}
+                                options={[
+                                    { label: 'Small', value: 'sm' },
+                                    { label: 'Medium', value: 'md' },
+                                    { label: 'Large', value: 'lg' },
+                                    { label: 'Extra Large', value: 'xl' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Different Colors</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Blue Theme"
+                                color="blue"
+                                options={[
+                                    { label: 'Option A', value: 'a' },
+                                    { label: 'Option B', value: 'b' },
+                                    { label: 'Option C', value: 'c' },
+                                ]}
+                            />
+                            <Multiselect
+                                label="Green Theme"
+                                color="green"
+                                options={[
+                                    { label: 'Option X', value: 'x' },
+                                    { label: 'Option Y', value: 'y' },
+                                    { label: 'Option Z', value: 'z' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Different Sizes</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Small Size"
+                                size="sm"
+                                options={[
+                                    { label: 'Small 1', value: 'sm1' },
+                                    { label: 'Small 2', value: 'sm2' },
+                                ]}
+                            />
+                            <Multiselect
+                                label="Large Size"
+                                size="lg"
+                                options={[
+                                    { label: 'Large 1', value: 'lg1' },
+                                    { label: 'Large 2', value: 'lg2' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Tag Limits</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Max 2 Visible Tags"
+                                maxVisibleTags={2}
+                                options={[
+                                    { label: 'Tag 1', value: 't1' },
+                                    { label: 'Tag 2', value: 't2' },
+                                    { label: 'Tag 3', value: 't3' },
+                                    { label: 'Tag 4', value: 't4' },
+                                    { label: 'Tag 5', value: 't5' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Non-clearable Tags</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Cannot Remove Tags"
+                                clearable={false}
+                                value={['preset1', 'preset2']}
+                                options={[
+                                    { label: 'Preset 1', value: 'preset1' },
+                                    { label: 'Preset 2', value: 'preset2' },
+                                    { label: 'Option 3', value: 'opt3' },
+                                    { label: 'Option 4', value: 'opt4' },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Error State</Text>
+                        <Flex direction="column" gap="md">
+                            <Multiselect
+                                label="Required Field"
+                                error="Please select at least one option"
+                                required
+                                options={[
+                                    { label: 'Required 1', value: 'req1' },
+                                    { label: 'Required 2', value: 'req2' },
+                                    { label: 'Required 3', value: 'req3' },
+                                ]}
+                            />
                         </Flex>
                     </Box>
                 );

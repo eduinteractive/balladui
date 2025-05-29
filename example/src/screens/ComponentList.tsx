@@ -18,15 +18,18 @@ const components = [
     { name: 'Button', description: 'Interactive button component with various styles' },
     { name: 'Card', description: 'Container component with elevation and border radius' },
     { name: 'Checkbox', description: 'Checkbox input component with labels, descriptions, and validation' },
+    { name: 'DateInput', description: 'Date input component with DD.MM.YYYY format and validation' },
     { name: 'Divider', description: 'Horizontal or vertical divider line' },
     { name: 'FAB', description: 'Floating Action Button component' },
     { name: 'Flex', description: 'Flexbox container component' },
+    { name: 'Multiselect', description: 'Multiple selection dropdown with tags, checkboxes, and search functionality' },
     { name: 'Select', description: 'Dropdown select component with search functionality' },
     { name: 'Space', description: 'Spacing component for layout' },
     { name: 'Spinner', description: 'Loading spinner component' },
     { name: 'Tabs', description: 'Tab navigation component' },
     { name: 'Text', description: 'Text component with various styles' },
     { name: 'TextInput', description: 'Input field component' },
+    { name: 'TimeInput', description: 'Time input component with HH:MM format and validation' },
 ];
 
 export const ComponentList = () => {
