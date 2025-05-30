@@ -48,6 +48,7 @@ export interface TabsProps extends BoxProps {
      */
     styles?: {
         contentContainer?: StyleProp<ViewStyle>;
+        tabContainer?: StyleProp<ViewStyle>;
     };
 }
 
@@ -78,6 +79,7 @@ export const Tabs: React.FC<TabsProps> = ({
             <View style={{
                 borderBottomWidth: 1,
                 borderBottomColor: applyColor(inactiveColor || "gray.3", theme),
+                ...StyleSheet.flatten(styles?.tabContainer),
             }}>
                 <ScrollView
                     horizontal
