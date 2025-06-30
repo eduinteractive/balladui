@@ -12,8 +12,10 @@ type RootStackParamList = {
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const components = [
+    { name: 'ActionSheet', description: 'Modal action sheet that slides up from bottom with customizable actions' },
     { name: 'Avatar', description: 'User avatar component with adjustable radius for circles or rounded boxes' },
     { name: 'Badge', description: 'Small badge component for labels, status indicators, and notifications' },
+    { name: 'BottomSheet', description: 'Flexible bottom sheet modal with snap points and customizable content' },
     { name: 'Box', description: 'A basic container component' },
     { name: 'Button', description: 'Interactive button component with various styles' },
     { name: 'Card', description: 'Container component with elevation and border radius' },
@@ -26,6 +28,7 @@ const components = [
     { name: 'Select', description: 'Dropdown select component with search functionality' },
     { name: 'Space', description: 'Spacing component for layout' },
     { name: 'Spinner', description: 'Loading spinner component' },
+    { name: 'Switch', description: 'Toggle switch component with smooth animations and multiple variants' },
     { name: 'Tabs', description: 'Tab navigation component' },
     { name: 'Text', description: 'Text component with various styles' },
     { name: 'TextInput', description: 'Input field component' },

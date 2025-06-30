@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox, Multiselect, DateInput, TimeInput } from '@eduinteractive/balladui';
+import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox, Multiselect, DateInput, TimeInput, Switch, ActionSheet, BottomSheet } from '@eduinteractive/balladui';
+import React from 'react';
 
 type RouteParams = {
     name: string;
@@ -10,6 +11,23 @@ type RouteParams = {
 export const ComponentDetail = () => {
     const route = useRoute();
     const { name } = route.params as RouteParams;
+
+    // State for ActionSheet examples
+    const [basicActionSheetVisible, setBasicActionSheetVisible] = React.useState(false);
+    const [destructiveActionSheetVisible, setDestructiveActionSheetVisible] = React.useState(false);
+    const [withIconsActionSheetVisible, setWithIconsActionSheetVisible] = React.useState(false);
+    const [customizedActionSheetVisible, setCustomizedActionSheetVisible] = React.useState(false);
+    const [withoutCancelActionSheetVisible, setWithoutCancelActionSheetVisible] = React.useState(false);
+    const [disabledOptionsActionSheetVisible, setDisabledOptionsActionSheetVisible] = React.useState(false);
+    const [socialMediaActionSheetVisible, setSocialMediaActionSheetVisible] = React.useState(false);
+    const [photoGalleryActionSheetVisible, setPhotoGalleryActionSheetVisible] = React.useState(false);
+
+    // State for BottomSheet examples
+    const [basicBottomSheetVisible, setBasicBottomSheetVisible] = React.useState(false);
+    const [snapPointsBottomSheetVisible, setSnapPointsBottomSheetVisible] = React.useState(false);
+    const [contentBottomSheetVisible, setContentBottomSheetVisible] = React.useState(false);
+    const [formBottomSheetVisible, setFormBottomSheetVisible] = React.useState(false);
+    const [withoutHandleBottomSheetVisible, setWithoutHandleBottomSheetVisible] = React.useState(false);
 
     const renderComponentVariants = () => {
         switch (name) {
@@ -1056,6 +1074,689 @@ export const ComponentDetail = () => {
                                     { label: 'Required 3', value: 'req3' },
                                 ]}
                             />
+                        </Flex>
+                    </Box>
+                );
+
+            case 'Switch':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">Basic Switches</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch label="Unchecked switch" />
+                            <Switch checked label="Checked switch" />
+                            <Switch disabled label="Disabled switch" />
+                            <Switch checked disabled label="Disabled checked switch" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Switch Variants</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch variant="filled" checked label="Filled variant" />
+                            <Switch variant="outline" checked label="Outline variant" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Switch Sizes</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch size="xs" checked label="Extra Small" />
+                            <Switch size="sm" checked label="Small" />
+                            <Switch size="smd" checked label="Small Medium" />
+                            <Switch size="md" checked label="Medium" />
+                            <Switch size="lg" checked label="Large" />
+                            <Switch size="xl" checked label="Extra Large" />
+                            <Switch size="2xl" checked label="Extra Extra Large" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Switch Colors</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch checked color="primary" label="Primary" />
+                            <Switch checked color="blue" label="Blue" />
+                            <Switch checked color="green" label="Green" />
+                            <Switch checked color="red" label="Red" />
+                            <Switch checked color="yellow" label="Yellow" />
+                            <Switch checked color="gray" label="Gray" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">With Descriptions</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch
+                                label="Enable Notifications"
+                                description="Receive push notifications for new messages"
+                            />
+                            <Switch
+                                checked
+                                label="Auto-save"
+                                description="Automatically save your work every 5 minutes"
+                            />
+                            <Switch
+                                label="Dark Mode"
+                                description="Switch to dark theme for better viewing in low light"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Label Positions</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch checked labelPosition="right" label="Label on the right (default)" />
+                            <Switch checked labelPosition="left" label="Label on the left" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Error States</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch
+                                error
+                                errorMessage="This setting is required"
+                                label="Required setting"
+                            />
+                            <Switch
+                                checked
+                                error
+                                errorMessage="Invalid configuration"
+                                label="Switch with error"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Custom Styling</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch
+                                checked
+                                radius="sm"
+                                label="Less rounded switch"
+                                labelSize="md"
+                            />
+                            <Switch
+                                checked
+                                radius="2xl"
+                                color="purple"
+                                label="Extra rounded purple switch"
+                                labelColor="purple"
+                            />
+                            <Switch
+                                checked
+                                variant="outline"
+                                color="blue"
+                                thumbColor="blue"
+                                label="Blue outline with blue thumb"
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Interactive Examples</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch
+                                label="Toggle me"
+                                description="Click to toggle this switch"
+                                onChange={(checked) => console.log('Switch changed:', checked)}
+                            />
+                            <Switch
+                                label="Airplane Mode"
+                                description="Disable all wireless connections"
+                                onChange={(checked) => console.log('Airplane mode:', checked)}
+                            />
+                            <Switch
+                                checked
+                                label="Wi-Fi"
+                                description="Connect to available wireless networks"
+                                onChange={(checked) => console.log('Wi-Fi:', checked)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Settings Page Example</Text>
+                        <Flex direction="column" gap="md">
+                            <Switch
+                                label="Push Notifications"
+                                description="Get notified about important updates"
+                                onChange={(checked) => console.log('Push notifications:', checked)}
+                            />
+                            <Switch
+                                checked
+                                label="Email Notifications"
+                                description="Receive email updates about your account"
+                                onChange={(checked) => console.log('Email notifications:', checked)}
+                            />
+                            <Switch
+                                label="Marketing Communications"
+                                description="Receive promotional emails and special offers"
+                                onChange={(checked) => console.log('Marketing:', checked)}
+                            />
+                            <Switch
+                                checked
+                                label="Auto-sync"
+                                description="Automatically sync your data across devices"
+                                onChange={(checked) => console.log('Auto-sync:', checked)}
+                            />
+                            <Switch
+                                label="Location Services"
+                                description="Allow apps to access your location"
+                                onChange={(checked) => console.log('Location:', checked)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Compact Layout</Text>
+                        <Flex direction="row" gap="lg" align="center" wrap="wrap">
+                            <Switch size="sm" />
+                            <Switch size="sm" checked />
+                            <Switch size="sm" color="green" checked />
+                            <Switch size="sm" color="red" checked />
+                            <Switch size="sm" variant="outline" checked />
+                        </Flex>
+                    </Box>
+                );
+
+            case 'ActionSheet':
+                return (
+                    <Box p="md">
+                        <Text fs="lg" fw="bold" mb="md">Basic ActionSheet</Text>
+                        <Flex direction="column" gap="md">
+                            <Button onPress={() => setBasicActionSheetVisible(true)}>
+                                Show Basic ActionSheet
+                            </Button>
+                            <ActionSheet
+                                visible={basicActionSheetVisible}
+                                onClose={() => setBasicActionSheetVisible(false)}
+                                title="Choose an action"
+                                description="Select one of the options below"
+                                options={[
+                                    { label: 'Edit', value: 'edit' },
+                                    { label: 'Share', value: 'share' },
+                                    { label: 'Copy Link', value: 'copy' },
+                                    { label: 'Save to Photos', value: 'save' },
+                                ]}
+                                onSelect={(value) => console.log('Selected:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">With Destructive Actions</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="red" onPress={() => setDestructiveActionSheetVisible(true)}>
+                                Show Destructive Actions
+                            </Button>
+                            <ActionSheet
+                                visible={destructiveActionSheetVisible}
+                                onClose={() => setDestructiveActionSheetVisible(false)}
+                                title="Delete Item"
+                                description="This action cannot be undone"
+                                options={[
+                                    { label: 'Edit Item', value: 'edit' },
+                                    { label: 'Duplicate Item', value: 'duplicate' },
+                                    { label: 'Archive Item', value: 'archive' },
+                                    { label: 'Delete Item', value: 'delete', destructive: true },
+                                ]}
+                                onSelect={(value) => console.log('Selected:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">With Icons</Text>
+                        <Flex direction="column" gap="md">
+                            <Button onPress={() => setWithIconsActionSheetVisible(true)}>
+                                Show ActionSheet with Icons
+                            </Button>
+                            <ActionSheet
+                                visible={withIconsActionSheetVisible}
+                                onClose={() => setWithIconsActionSheetVisible(false)}
+                                title="File Actions"
+                                options={[
+                                    {
+                                        label: 'Download',
+                                        value: 'download',
+                                        icon: <Text style={{ fontSize: 16 }}>⬇️</Text>
+                                    },
+                                    {
+                                        label: 'Share',
+                                        value: 'share',
+                                        icon: <Text style={{ fontSize: 16 }}>🔗</Text>
+                                    },
+                                    {
+                                        label: 'Rename',
+                                        value: 'rename',
+                                        icon: <Text style={{ fontSize: 16 }}>✏️</Text>
+                                    },
+                                    {
+                                        label: 'Move to Trash',
+                                        value: 'trash',
+                                        destructive: true,
+                                        icon: <Text style={{ fontSize: 16 }}>🗑️</Text>
+                                    },
+                                ]}
+                                onSelect={(value) => console.log('Selected:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Customized Styling</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="purple" onPress={() => setCustomizedActionSheetVisible(true)}>
+                                Show Customized ActionSheet
+                            </Button>
+                            <ActionSheet
+                                visible={customizedActionSheetVisible}
+                                onClose={() => setCustomizedActionSheetVisible(false)}
+                                title="Custom Settings"
+                                description="Adjust your preferences"
+                                titleColor="purple"
+                                radius="xl"
+                                titleSize="lg"
+                                optionSize="md"
+                                options={[
+                                    { label: 'Theme Settings', value: 'theme' },
+                                    { label: 'Notification Preferences', value: 'notifications' },
+                                    { label: 'Privacy Settings', value: 'privacy' },
+                                    { label: 'Account Settings', value: 'account' },
+                                ]}
+                                cancelText="Close"
+                                onSelect={(value) => console.log('Selected:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Without Cancel Button</Text>
+                        <Flex direction="column" gap="md">
+                            <Button onPress={() => setWithoutCancelActionSheetVisible(true)}>
+                                Show Without Cancel
+                            </Button>
+                            <ActionSheet
+                                visible={withoutCancelActionSheetVisible}
+                                onClose={() => setWithoutCancelActionSheetVisible(false)}
+                                title="Quick Actions"
+                                withCancel={false}
+                                closeOnBackdrop={true}
+                                options={[
+                                    { label: 'Quick Save', value: 'quick-save' },
+                                    { label: 'Quick Share', value: 'quick-share' },
+                                    { label: 'Quick Copy', value: 'quick-copy' },
+                                ]}
+                                onSelect={(value) => console.log('Selected:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Disabled Options</Text>
+                        <Flex direction="column" gap="md">
+                            <Button onPress={() => setDisabledOptionsActionSheetVisible(true)}>
+                                Show With Disabled Options
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                This example shows how options can be disabled
+                            </Text>
+                            <ActionSheet
+                                visible={disabledOptionsActionSheetVisible}
+                                onClose={() => setDisabledOptionsActionSheetVisible(false)}
+                                title="Account Settings"
+                                description="Some options may be unavailable"
+                                options={[
+                                    { label: 'Change Password', value: 'password' },
+                                    { label: 'Update Email', value: 'email' },
+                                    { label: 'Delete Account', value: 'delete', destructive: true, disabled: true },
+                                    { label: 'Export Data', value: 'export', disabled: true },
+                                    { label: 'Privacy Settings', value: 'privacy' },
+                                ]}
+                                onSelect={(value) => console.log('Selected:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Social Media Actions</Text>
+                        <Flex direction="column" gap="md">
+                            <Text fs="sm" c="gray.6" mb="sm">
+                                Real-world example for social media app
+                            </Text>
+                            <Button color="blue" onPress={() => setSocialMediaActionSheetVisible(true)}>
+                                Post Actions
+                            </Button>
+                            <ActionSheet
+                                visible={socialMediaActionSheetVisible}
+                                onClose={() => setSocialMediaActionSheetVisible(false)}
+                                title="Post Options"
+                                options={[
+                                    {
+                                        label: 'Like Post',
+                                        value: 'like',
+                                        icon: <Text style={{ fontSize: 16 }}>👍</Text>
+                                    },
+                                    {
+                                        label: 'Comment',
+                                        value: 'comment',
+                                        icon: <Text style={{ fontSize: 16 }}>💬</Text>
+                                    },
+                                    {
+                                        label: 'Share Post',
+                                        value: 'share',
+                                        icon: <Text style={{ fontSize: 16 }}>📤</Text>
+                                    },
+                                    {
+                                        label: 'Save Post',
+                                        value: 'save',
+                                        icon: <Text style={{ fontSize: 16 }}>🔖</Text>
+                                    },
+                                    {
+                                        label: 'Report Post',
+                                        value: 'report',
+                                        icon: <Text style={{ fontSize: 16 }}>⚠️</Text>
+                                    },
+                                    {
+                                        label: 'Block User',
+                                        value: 'block',
+                                        destructive: true,
+                                        icon: <Text style={{ fontSize: 16 }}>🚫</Text>
+                                    },
+                                ]}
+                                onSelect={(value) => console.log('Social action:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Photo Gallery Actions</Text>
+                        <Flex direction="column" gap="md">
+                            <Text fs="sm" c="gray.6" mb="sm">
+                                Example for photo gallery app
+                            </Text>
+                            <Button color="green" onPress={() => setPhotoGalleryActionSheetVisible(true)}>
+                                Photo Actions
+                            </Button>
+                            <ActionSheet
+                                visible={photoGalleryActionSheetVisible}
+                                onClose={() => setPhotoGalleryActionSheetVisible(false)}
+                                title="Photo Options"
+                                description="What would you like to do with this photo?"
+                                options={[
+                                    {
+                                        label: 'Edit Photo',
+                                        value: 'edit',
+                                        icon: <Text style={{ fontSize: 16 }}>✂️</Text>
+                                    },
+                                    {
+                                        label: 'Set as Wallpaper',
+                                        value: 'wallpaper',
+                                        icon: <Text style={{ fontSize: 16 }}>🖼️</Text>
+                                    },
+                                    {
+                                        label: 'Share Photo',
+                                        value: 'share',
+                                        icon: <Text style={{ fontSize: 16 }}>📲</Text>
+                                    },
+                                    {
+                                        label: 'Save to Album',
+                                        value: 'save',
+                                        icon: <Text style={{ fontSize: 16 }}>📁</Text>
+                                    },
+                                    {
+                                        label: 'Copy to Clipboard',
+                                        value: 'copy',
+                                        icon: <Text style={{ fontSize: 16 }}>📋</Text>
+                                    },
+                                    {
+                                        label: 'Delete Photo',
+                                        value: 'delete',
+                                        destructive: true,
+                                        icon: <Text style={{ fontSize: 16 }}>🗑️</Text>
+                                    },
+                                ]}
+                                onSelect={(value) => console.log('Photo action:', value)}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Interactive Examples</Text>
+                        <Flex direction="column" gap="md">
+                            <Text fs="sm" c="gray.6" mb="sm">
+                                Try the interactive examples above to see:
+                            </Text>
+                            <Text fs="sm" c="gray.7">• Smooth slide-up animation</Text>
+                            <Text fs="sm" c="gray.7">• Backdrop tap to close</Text>
+                            <Text fs="sm" c="gray.7">• Destructive action styling</Text>
+                            <Text fs="sm" c="gray.7">• Custom icons and colors</Text>
+                            <Text fs="sm" c="gray.7">• Flexible option configurations</Text>
+                        </Flex>
+                    </Box>
+                );
+
+            case 'BottomSheet':
+                return (
+                    <Box p="md" flex={1}>
+                        <Text fs="lg" fw="bold" mb="md">Basic BottomSheet</Text>
+                        <Flex direction="column" gap="md" flex={1}>
+                            <Button onPress={() => setBasicBottomSheetVisible(true)}>
+                                Show Basic BottomSheet
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Opens to 50% height with 10%, 50%, and 90% snap points
+                            </Text>
+                            <BottomSheet
+                                visible={basicBottomSheetVisible}
+                                onClose={() => setBasicBottomSheetVisible(false)}
+                                title="Welcome"
+                                description="This is a basic bottom sheet"
+                                withSnapButtons={true}
+                            >
+                                <Text fs="md" mb="md">
+                                    This is the content inside the bottom sheet. You can put any React Native components here.
+                                </Text>
+                                <Text fs="sm" mb="md" c="gray.6">
+                                    Try dragging the handle up and down, or use the snap buttons above!
+                                </Text>
+                                <Flex direction="column" gap="sm">
+                                    <Text fs="sm" fw="bold">Gesture Instructions:</Text>
+                                    <Text fs="sm">🔼 Drag up: Snap to smaller size (10%)</Text>
+                                    <Text fs="sm">🔽 Drag down: Snap to larger size (90%)</Text>
+                                    <Text fs="sm">⚡ Fast swipe: Jump to next snap point</Text>
+                                    <Text fs="sm">🐌 Slow drag: Find closest snap point</Text>
+                                </Flex>
+                                <Button onPress={() => setBasicBottomSheetVisible(false)} mt="md">
+                                    Close
+                                </Button>
+                            </BottomSheet>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Multiple Snap Points</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="blue" onPress={() => setSnapPointsBottomSheetVisible(true)}>
+                                Show Advanced Snap Points
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Four snap points: 10%, 30%, 60%, and 90% with smart velocity detection
+                            </Text>
+                            <BottomSheet
+                                visible={snapPointsBottomSheetVisible}
+                                onClose={() => setSnapPointsBottomSheetVisible(false)}
+                                title="Advanced Snap Points Demo"
+                                description="Drag fast to jump between snap points, or drag slowly for precise control"
+                                snapPoints={[0.1, 0.3, 0.6, 0.9, 1]}
+                                initialSnapIndex={2}
+                                withSnapButtons={true}
+                                onSnapPointChange={(index: number) => console.log('Snapped to index:', index)}
+                            >
+                                <Text fs="md" mb="md">
+                                    This bottom sheet demonstrates intelligent snapping:
+                                </Text>
+                                <Flex direction="column" gap="xs">
+                                    <Text fs="sm">• 10% - Minimal peek (just handle + title)</Text>
+                                    <Text fs="sm">• 30% - Small preview</Text>
+                                    <Text fs="sm">• 60% - Medium content view</Text>
+                                    <Text fs="sm">• 90% - Full content access</Text>
+                                    <Text fs="sm">• 100% - Maximum height</Text>
+                                </Flex>
+
+                                <Text fs="sm" c="gray.6" mt="md" mb="md">
+                                    The sheet automatically detects your swipe velocity and intelligently chooses the next snap point!
+                                </Text>
+
+                                <Flex direction="row" gap="sm">
+                                    <Button
+                                        style={{ flex: 1 }}
+                                        onPress={() => setSnapPointsBottomSheetVisible(false)}
+                                        variant="outline"
+                                    >
+                                        Close
+                                    </Button>
+                                    <Button
+                                        style={{ flex: 1 }}
+                                        onPress={() => console.log('Action button pressed')}
+                                    >
+                                        Action
+                                    </Button>
+                                </Flex>
+                            </BottomSheet>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Rich Content</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="green" onPress={() => setContentBottomSheetVisible(true)}>
+                                Show Product Details
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                E-commerce style bottom sheet with product information
+                            </Text>
+                            <BottomSheet
+                                visible={contentBottomSheetVisible}
+                                onClose={() => setContentBottomSheetVisible(false)}
+                                title="Product Details"
+                                snapPoints={[0.1, 0.4, 0.7, 0.95, 1]}
+                                initialSnapIndex={2}
+                                withSnapButtons={true}
+                                backgroundColor="white"
+                                radius="xl"
+                                onSnapPointChange={(index: number) => console.log('Content sheet snapped to:', index)}
+                            >
+                                <Flex direction="column" gap="md">
+                                    <Box p="md" style={{ backgroundColor: '#f5f5f5', borderRadius: 8 }}>
+                                        <Text fs="lg" fw="bold" mb="xs">Premium Wireless Headphones</Text>
+                                        <Text fs="md" c="primary" fw="bold">$299.99</Text>
+                                        <Text fs="sm" c="green" mt="xs">✓ In Stock</Text>
+                                    </Box>
+
+                                    <Text fs="sm" c="gray.7" mb="md">
+                                        High-quality wireless headphones with active noise cancellation,
+                                        30-hour battery life, and premium comfort design perfect for
+                                        music lovers and professionals.
+                                    </Text>
+
+                                    <Flex direction="column" gap="xs">
+                                        <Text fs="sm" fw="bold">Key Features:</Text>
+                                        <Text fs="sm">🎵 Active Noise Cancellation</Text>
+                                        <Text fs="sm">🔋 30-hour battery life</Text>
+                                        <Text fs="sm">📱 Bluetooth 5.2 connectivity</Text>
+                                        <Text fs="sm">🎧 Premium comfort padding</Text>
+                                        <Text fs="sm">🎤 Built-in microphone</Text>
+                                        <Text fs="sm">📦 Premium packaging</Text>
+                                    </Flex>
+
+                                    <Flex direction="row" gap="sm" mt="lg">
+                                        <Button
+                                            style={{ flex: 1 }}
+                                            variant="outline"
+                                            onPress={() => console.log('Added to cart')}
+                                        >
+                                            Add to Cart
+                                        </Button>
+                                        <Button
+                                            style={{ flex: 1 }}
+                                            onPress={() => console.log('Buy now')}
+                                        >
+                                            Buy Now
+                                        </Button>
+                                    </Flex>
+                                </Flex>
+                            </BottomSheet>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Form BottomSheet</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="purple" onPress={() => setFormBottomSheetVisible(true)}>
+                                Show Contact Form
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Full-height form for data entry with keyboard handling
+                            </Text>
+                            <BottomSheet
+                                visible={formBottomSheetVisible}
+                                onClose={() => setFormBottomSheetVisible(false)}
+                                title="Add New Contact"
+                                description="Fill in the contact information below"
+                                snapPoints={[0.1, 0.6, 0.9, 1]}
+                                initialSnapIndex={2}
+                                withHandle={true}
+                                withSnapButtons={true}
+                            >
+                                <Flex direction="column" gap="md">
+                                    <TextInput
+                                        label="First Name"
+                                        placeholder="Enter first name"
+                                    />
+                                    <TextInput
+                                        label="Last Name"
+                                        placeholder="Enter last name"
+                                    />
+                                    <TextInput
+                                        label="Email"
+                                        placeholder="Enter email address"
+                                    />
+                                    <TextInput
+                                        label="Phone"
+                                        placeholder="Enter phone number"
+                                    />
+
+                                    <Text fs="sm" c="gray.6" mt="sm">
+                                        Tip: Drag to 60% for comfortable typing, 100% for full view, or 10% to minimize.
+                                    </Text>
+
+                                    <Flex direction="row" gap="sm" mt="lg">
+                                        <Button
+                                            style={{ flex: 1 }}
+                                            variant="outline"
+                                            onPress={() => setFormBottomSheetVisible(false)}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            style={{ flex: 1 }}
+                                            onPress={() => {
+                                                console.log('Contact saved');
+                                                setFormBottomSheetVisible(false);
+                                            }}
+                                        >
+                                            Save Contact
+                                        </Button>
+                                    </Flex>
+                                </Flex>
+                            </BottomSheet>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Without Handle</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="red" onPress={() => setWithoutHandleBottomSheetVisible(true)}>
+                                Show Without Handle
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Bottom sheet without drag handle - button or backdrop control only
+                            </Text>
+                            <BottomSheet
+                                visible={withoutHandleBottomSheetVisible}
+                                onClose={() => setWithoutHandleBottomSheetVisible(false)}
+                                title="No Drag Handle"
+                                description="This bottom sheet can only be controlled with buttons"
+                                snapPoints={[0.3, 0.6, 1]}
+                                initialSnapIndex={1}
+                                withHandle={false}
+                                withSnapButtons={true}
+                            >
+                                <Text fs="md" mb="md">
+                                    This bottom sheet doesn't have a drag handle, so you can only control it using:
+                                </Text>
+                                <Flex direction="column" gap="xs" mb="md">
+                                    <Text fs="sm">• Snap point buttons above</Text>
+                                    <Text fs="sm">• Close button below</Text>
+                                    <Text fs="sm">• Tapping the backdrop</Text>
+                                </Flex>
+                                <Text fs="sm" c="gray.6" mb="md">
+                                    This is useful for sheets where you want to prevent accidental dragging or need full height view.
+                                </Text>
+                                <Button onPress={() => setWithoutHandleBottomSheetVisible(false)}>
+                                    Close Sheet
+                                </Button>
+                            </BottomSheet>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Key Features</Text>
+                        <Flex direction="column" gap="sm">
+                            <Text fs="sm" c="gray.7">• 🎯 Smart velocity-based snapping</Text>
+                            <Text fs="sm" c="gray.7">• 📐 Multiple snap points (10%, 30%, 60%, 90%)</Text>
+                            <Text fs="sm" c="gray.7">• 🤏 Smooth drag gestures with handle</Text>
+                            <Text fs="sm" c="gray.7">• 🔘 Optional snap point buttons</Text>
+                            <Text fs="sm" c="gray.7">• 🎨 Full theme integration</Text>
+                            <Text fs="sm" c="gray.7">• 📱 Backdrop tap to close</Text>
+                            <Text fs="sm" c="gray.7">• ⚡ Fast swipe detection</Text>
+                            <Text fs="sm" c="gray.7">• 🔧 Highly customizable styling</Text>
                         </Flex>
                     </Box>
                 );

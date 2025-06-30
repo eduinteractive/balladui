@@ -1,5 +1,7 @@
+export * from './ActionSheet';
 export * from './Avatar';
 export * from './Badge';
+export * from './BottomSheet';
 export * from './Box';
 export * from './Text';
 export * from './Button';
@@ -13,6 +15,7 @@ export * from './Multiselect';
 export * from './Select';
 export * from './Space';
 export * from './Spinner';
+export * from './Switch';
 export * from './Tabs';
 export * from './TextInput';
 export * from './TimeInput';

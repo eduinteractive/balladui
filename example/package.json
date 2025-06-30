@@ -24,6 +24,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.20.0",
 		"react-native-builder-bob": "^0.40.10",
+		"react-native-gesture-handler": "^2.25.0",
 		"react-native-svg": "^15.11.2"
 	},
 	"private": true

@@ -79,6 +79,7 @@
 		"react": "19.0.0",
 		"react-native": "0.79.2",
 		"react-native-builder-bob": "^0.40.10",
+		"react-native-gesture-handler": "^2.25.0",
 		"react-native-svg": "^15.11.2",
 		"release-it": "^17.10.0",
 		"typescript": "^5.2.2"
@@ -86,6 +87,7 @@
 	"peerDependencies": {
 		"react": "*",
 		"react-native": "*",
+		"react-native-gesture-handler": "*",
 		"react-native-svg": "*"
 	},
 	"workspaces": [
