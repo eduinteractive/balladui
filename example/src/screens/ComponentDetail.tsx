@@ -109,6 +109,7 @@ export const ComponentDetail = () => {
                         <Flex direction="column" gap="md">
                             <Checkbox variant="filled" checked label="Filled variant" />
                             <Checkbox variant="outline" checked label="Outline variant" />
+                            <Checkbox variant="round" checked label="Round variant" />
                         </Flex>
 
                         <Text fs="lg" fw="bold" mt="lg" mb="md">Checkbox Sizes</Text>
@@ -129,6 +130,41 @@ export const ComponentDetail = () => {
                             <Checkbox checked color="red" label="Red" />
                             <Checkbox checked color="yellow" label="Yellow" />
                             <Checkbox checked color="gray" label="Gray" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Round Checkbox Sizes</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox variant="round" size="xs" checked label="Extra Small" />
+                            <Checkbox variant="round" size="sm" checked label="Small" />
+                            <Checkbox variant="round" size="smd" checked label="Small Medium" />
+                            <Checkbox variant="round" size="md" checked label="Medium" />
+                            <Checkbox variant="round" size="lg" checked label="Large" />
+                            <Checkbox variant="round" size="xl" checked label="Extra Large" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Round Checkbox Colors</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox variant="round" checked color="primary" label="Primary" />
+                            <Checkbox variant="round" checked color="blue" label="Blue" />
+                            <Checkbox variant="round" checked color="green" label="Green" />
+                            <Checkbox variant="round" checked color="red" label="Red" />
+                            <Checkbox variant="round" checked color="yellow" label="Yellow" />
+                            <Checkbox variant="round" checked color="gray" label="Gray" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Round Checkbox States</Text>
+                        <Flex direction="column" gap="md">
+                            <Checkbox variant="round" label="Unchecked round" />
+                            <Checkbox variant="round" checked label="Checked round" />
+                            <Checkbox variant="round" indeterminate label="Indeterminate round" />
+                            <Checkbox variant="round" disabled label="Disabled round" />
+                            <Checkbox variant="round" checked disabled label="Disabled checked round" />
+                            <Checkbox
+                                variant="round"
+                                error
+                                errorMessage="This field is required"
+                                label="Round with error"
+                            />
                         </Flex>
 
                         <Text fs="lg" fw="bold" mt="lg" mb="md">With Descriptions</Text>
@@ -244,6 +280,53 @@ export const ComponentDetail = () => {
                             <TextInput size="md" variant="default" label="Input md" placeholder="Input md" />
                             <TextInput size="lg" variant="default" label="Input lg" placeholder="Input lg" />
                             <TextInput size="xl" variant="default" label="Input xl" placeholder="Input xl" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TextInput Filled</Text>
+                        <Flex direction="column" gap="md">
+                            <TextInput size="xs" variant="filled" placeholder="Input xs" />
+                            <TextInput size="sm" variant="filled" placeholder="Input sm" />
+                            <TextInput size="smd" variant="filled" placeholder="Input smd" />
+                            <TextInput size="md" variant="filled" placeholder="Input md" />
+                            <TextInput size="lg" variant="filled" placeholder="Input lg" />
+                            <TextInput size="xl" variant="filled" placeholder="Input xl" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TextInput Filled with Different Radius</Text>
+                        <Flex direction="column" gap="md">
+                            <TextInput variant="filled" radius="xs" placeholder="Sharp corners (xs)" />
+                            <TextInput variant="filled" radius="sm" placeholder="Small radius (sm)" />
+                            <TextInput variant="filled" radius="md" placeholder="Medium radius (md)" />
+                            <TextInput variant="filled" radius="lg" placeholder="Large radius (lg)" />
+                            <TextInput variant="filled" radius="xl" placeholder="Extra large radius (xl)" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TextInput Filled States</Text>
+                        <Flex direction="column" gap="md">
+                            <TextInput variant="filled" placeholder="Normal filled input" />
+                            <TextInput variant="filled" disabled placeholder="Disabled filled input" />
+                            <TextInput variant="filled" error="This field is required" placeholder="Error state" />
+                            <TextInput variant="filled" value="Pre-filled value" placeholder="With value" />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">TextInput Filled with Sections</Text>
+                        <Flex direction="column" gap="md">
+                            <TextInput
+                                variant="filled"
+                                placeholder="Search..."
+                                leftSection={<Text>🔍</Text>}
+                            />
+                            <TextInput
+                                variant="filled"
+                                placeholder="Enter password"
+                                rightSection={<Text>👁️</Text>}
+                            />
+                            <TextInput
+                                variant="filled"
+                                placeholder="With both sections"
+                                leftSection={<Text>📧</Text>}
+                                rightSection={<Text>✓</Text>}
+                            />
                         </Flex>
                     </Box>
                 );

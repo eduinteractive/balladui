@@ -46,7 +46,7 @@ export interface TextInputProps extends BoxProps, Omit<RNTextInputProps, 'style'
      * The variant of the input.
      * @default 'default'
      */
-    variant?: 'default' | 'underline';
+    variant?: 'default' | 'underline' | 'filled';
 
     /**
      * Content to be rendered on the left side of the input.
@@ -81,7 +81,7 @@ const getInputStyles = (
     disabled: boolean,
     radius: BalladSize,
     error?: string,
-    variant: 'default' | 'underline' = 'default',
+    variant: 'default' | 'underline' | 'filled' = 'default',
     hasLeftSection?: boolean,
     hasRightSection?: boolean,
     theme?: BalladTheme,
@@ -108,6 +108,18 @@ const getInputStyles = (
         };
     }
 
+    if (variant === 'filled') {
+        return {
+            ...baseStyles,
+            borderWidth: 0,
+            borderRadius: applySizeProp(radius),
+            backgroundColor: disabled ? applyColor('gray.3', theme) : applyColor('gray.1', theme),
+            paddingTop: applySizeProp('md'),
+            paddingLeft: hasLeftSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp('md'),
+            paddingRight: hasRightSection ? applySizeProp(size) + applySizeProp('md') : applySizeProp('md'),
+        };
+    }
+
     return {
         ...baseStyles,
         borderWidth: 1,
@@ -118,7 +130,7 @@ const getInputStyles = (
     };
 };
 
-const getSectionStyles = (position: 'left' | 'right', variant: 'default' | 'underline' = 'default'): ViewStyle => ({
+const getSectionStyles = (position: 'left' | 'right', variant: 'default' | 'underline' | 'filled' = 'default'): ViewStyle => ({
     position: 'absolute',
     [position]: applySizeProp('sm'),
     top: variant === 'underline' ? applySizeProp('md') : 0,

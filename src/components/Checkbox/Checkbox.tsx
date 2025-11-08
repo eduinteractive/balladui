@@ -6,7 +6,7 @@ import { applyColor } from '../../hooks/useColor';
 import { useTheme } from '../../hooks/useTheme';
 import { Flex } from '../Flex';
 
-export type CheckboxVariant = 'filled' | 'outline';
+export type CheckboxVariant = 'filled' | 'outline' | 'round';
 
 export interface CheckboxProps extends BoxProps {
     /**
@@ -182,6 +182,12 @@ const getVariantStyles = (
                     borderWidth: 2,
                     borderColor: baseColor,
                 };
+            case 'round':
+                return {
+                    backgroundColor: baseColor,
+                    borderWidth: 1,
+                    borderColor: baseColor,
+                };
             default:
                 return {
                     backgroundColor: baseColor,
@@ -221,6 +227,8 @@ const getIconColor = (
                 return '#ffffff';
             case 'outline':
                 return applyColor(color, theme) || color;
+            case 'round':
+                return '#ffffff';
             default:
                 return '#ffffff';
         }
@@ -285,24 +293,28 @@ export const Checkbox = (props: CheckboxProps) => {
         }
     );
 
-    const renderCheckbox = () => (
-        <View
-            style={{
-                width: checkboxSize,
-                height: checkboxSize,
-                borderRadius: applySizeProp(radius),
-                alignItems: 'center',
-                justifyContent: 'center',
-                ...variantStyles,
-            }}
-        >
-            {indeterminate ? (
-                indeterminateIcon || <DefaultIndeterminateIcon size={checkboxSize} color={iconColor} />
-            ) : checked ? (
-                icon || <DefaultCheckIcon size={checkboxSize} color={iconColor} />
-            ) : null}
-        </View>
-    );
+    const renderCheckbox = () => {
+        const borderRadius = variant === 'round' ? checkboxSize / 2 : applySizeProp(radius);
+
+        return (
+            <View
+                style={{
+                    width: checkboxSize,
+                    height: checkboxSize,
+                    borderRadius,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    ...variantStyles,
+                }}
+            >
+                {indeterminate ? (
+                    indeterminateIcon || <DefaultIndeterminateIcon size={checkboxSize} color={iconColor} />
+                ) : checked ? (
+                    icon || <DefaultCheckIcon size={checkboxSize} color={iconColor} />
+                ) : null}
+            </View>
+        );
+    };
 
     const renderLabel = () => {
         if (!label && !description) return null;
