@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox, Multiselect, DateInput, TimeInput, Switch, ActionSheet, BottomSheet } from '@eduinteractive/balladui';
+import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox, Multiselect, DateInput, TimeInput, Switch, ActionSheet, BottomSheet, Modal } from '@eduinteractive/balladui';
 import React from 'react';
 
 type RouteParams = {
@@ -28,6 +28,17 @@ export const ComponentDetail = () => {
     const [contentBottomSheetVisible, setContentBottomSheetVisible] = React.useState(false);
     const [formBottomSheetVisible, setFormBottomSheetVisible] = React.useState(false);
     const [withoutHandleBottomSheetVisible, setWithoutHandleBottomSheetVisible] = React.useState(false);
+
+    // State for Modal examples
+    const [basicModalVisible, setBasicModalVisible] = React.useState(false);
+    const [withTitleModalVisible, setWithTitleModalVisible] = React.useState(false);
+    const [withCloseButtonModalVisible, setWithCloseButtonModalVisible] = React.useState(false);
+    const [customWidthModalVisible, setCustomWidthModalVisible] = React.useState(false);
+    const [formModalVisible, setFormModalVisible] = React.useState(false);
+    const [noBackdropCloseModalVisible, setNoBackdropCloseModalVisible] = React.useState(false);
+    const [footerButtonsModalVisible, setFooterButtonsModalVisible] = React.useState(false);
+    const [footerButtonsConfirmModalVisible, setFooterButtonsConfirmModalVisible] = React.useState(false);
+    const [footerButtonsMultipleModalVisible, setFooterButtonsMultipleModalVisible] = React.useState(false);
 
     const renderComponentVariants = () => {
         switch (name) {
@@ -1840,6 +1851,275 @@ export const ComponentDetail = () => {
                             <Text fs="sm" c="gray.7">• 📱 Backdrop tap to close</Text>
                             <Text fs="sm" c="gray.7">• ⚡ Fast swipe detection</Text>
                             <Text fs="sm" c="gray.7">• 🔧 Highly customizable styling</Text>
+                        </Flex>
+                    </Box>
+                );
+
+            case 'Modal':
+                return (
+                    <Box p="md" flex={1}>
+                        <Text fs="lg" fw="bold" mb="md">Basic Modal</Text>
+                        <Flex direction="column" gap="md" flex={1}>
+                            <Button onPress={() => setBasicModalVisible(true)}>
+                                Show Basic Modal
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                A simple modal with just content
+                            </Text>
+                            <Modal
+                                visible={basicModalVisible}
+                                onClose={() => setBasicModalVisible(false)}
+                            >
+                                <Text fs="md" mb="md">
+                                    This is a basic modal dialog. You can put any content here.
+                                </Text>
+                                <Button onPress={() => setBasicModalVisible(false)}>
+                                    Close
+                                </Button>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Modal with Title and Description</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="blue" onPress={() => setWithTitleModalVisible(true)}>
+                                Show Modal with Title
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Modal with title and description text
+                            </Text>
+                            <Modal
+                                visible={withTitleModalVisible}
+                                onClose={() => setWithTitleModalVisible(false)}
+                                title="Confirm Action"
+                                description="Are you sure you want to proceed with this action? This cannot be undone."
+                            >
+                                <Flex direction="row" gap="sm" justify="flex-end">
+                                    <Button variant="outline" onPress={() => setWithTitleModalVisible(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button color="red" onPress={() => setWithTitleModalVisible(false)}>
+                                        Confirm
+                                    </Button>
+                                </Flex>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Modal with Close Button</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="green" onPress={() => setWithCloseButtonModalVisible(true)}>
+                                Show Modal with Close Button
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Modal with a close button in the header
+                            </Text>
+                            <Modal
+                                visible={withCloseButtonModalVisible}
+                                onClose={() => setWithCloseButtonModalVisible(false)}
+                                title="Settings"
+                                description="Configure your preferences"
+                                withCloseButton={true}
+                            >
+                                <Text fs="sm" mb="md" c="gray.7">
+                                    You can close this modal by clicking the × button in the top right corner, or by tapping the backdrop.
+                                </Text>
+                                <Button onPress={() => setWithCloseButtonModalVisible(false)}>
+                                    Save Changes
+                                </Button>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Custom Width Modal</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="purple" onPress={() => setCustomWidthModalVisible(true)}>
+                                Show Narrow Modal
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Modal with custom width (70% of screen)
+                            </Text>
+                            <Modal
+                                visible={customWidthModalVisible}
+                                onClose={() => setCustomWidthModalVisible(false)}
+                                title="Narrow Modal"
+                                width="70%"
+                            >
+                                <Text fs="sm" mb="md">
+                                    This modal has a custom width of 70% instead of the default 90%.
+                                </Text>
+                                <Button onPress={() => setCustomWidthModalVisible(false)}>
+                                    Close
+                                </Button>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Form Modal</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="orange" onPress={() => setFormModalVisible(true)}>
+                                Show Form Modal
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Modal containing a form with inputs
+                            </Text>
+                            <Modal
+                                visible={formModalVisible}
+                                onClose={() => setFormModalVisible(false)}
+                                title="Create Account"
+                                description="Fill in your details to create a new account"
+                                withCloseButton={true}
+                            >
+                                <Flex direction="column" gap="md">
+                                    <TextInput placeholder="Full Name" />
+                                    <TextInput placeholder="Email Address" keyboardType="email-address" />
+                                    <TextInput placeholder="Password" secureTextEntry />
+                                    <Flex direction="row" gap="sm" justify="flex-end" mt="sm">
+                                        <Button variant="outline" onPress={() => setFormModalVisible(false)}>
+                                            Cancel
+                                        </Button>
+                                        <Button onPress={() => setFormModalVisible(false)}>
+                                            Create Account
+                                        </Button>
+                                    </Flex>
+                                </Flex>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Modal Without Backdrop Close</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="red" onPress={() => setNoBackdropCloseModalVisible(true)}>
+                                Show Modal (No Backdrop Close)
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Modal that cannot be closed by tapping the backdrop
+                            </Text>
+                            <Modal
+                                visible={noBackdropCloseModalVisible}
+                                onClose={() => setNoBackdropCloseModalVisible(false)}
+                                title="Important Notice"
+                                description="You must use the close button to dismiss this modal"
+                                withCloseButton={true}
+                                closeOnBackdrop={false}
+                            >
+                                <Text fs="sm" mb="md" c="gray.7">
+                                    This modal cannot be closed by tapping the backdrop. You must use the close button or the button below.
+                                </Text>
+                                <Button onPress={() => setNoBackdropCloseModalVisible(false)}>
+                                    I Understand
+                                </Button>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Modal with Footer Buttons</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="teal" onPress={() => setFooterButtonsModalVisible(true)}>
+                                Show Modal with Footer Buttons
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Modal with flat borderless buttons at the bottom, connected to the border
+                            </Text>
+                            <Modal
+                                visible={footerButtonsModalVisible}
+                                onClose={() => setFooterButtonsModalVisible(false)}
+                                title="Delete Item"
+                                description="Are you sure you want to delete this item? This action cannot be undone."
+                                footerButtons={[
+                                    {
+                                        label: 'Cancel',
+                                        onPress: () => setFooterButtonsModalVisible(false),
+                                        variant: 'subtle',
+                                    },
+                                    {
+                                        label: 'Delete',
+                                        onPress: () => setFooterButtonsModalVisible(false),
+                                        variant: 'filled',
+                                        color: 'red',
+                                    },
+                                ]}
+                            >
+                                <Text fs="sm" c="gray.7">
+                                    The footer buttons are connected to the bottom border with a flat, borderless design.
+                                </Text>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Footer Buttons - Confirm Dialog</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="indigo" onPress={() => setFooterButtonsConfirmModalVisible(true)}>
+                                Show Confirm Dialog
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Simple confirm dialog with two footer buttons
+                            </Text>
+                            <Modal
+                                visible={footerButtonsConfirmModalVisible}
+                                onClose={() => setFooterButtonsConfirmModalVisible(false)}
+                                title="Confirm Action"
+                                description="Do you want to proceed with this action?"
+                                footerButtons={[
+                                    {
+                                        label: 'No',
+                                        onPress: () => setFooterButtonsConfirmModalVisible(false),
+                                        variant: 'subtle',
+                                    },
+                                    {
+                                        label: 'Yes',
+                                        onPress: () => setFooterButtonsConfirmModalVisible(false),
+                                        variant: 'filled',
+                                        color: 'primary',
+                                    },
+                                ]}
+                            />
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Footer Buttons - Multiple Options</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="pink" onPress={() => setFooterButtonsMultipleModalVisible(true)}>
+                                Show Modal with Multiple Buttons
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Modal with three footer buttons showing different variants
+                            </Text>
+                            <Modal
+                                visible={footerButtonsMultipleModalVisible}
+                                onClose={() => setFooterButtonsMultipleModalVisible(false)}
+                                title="Choose Action"
+                                description="Select one of the following actions:"
+                                footerButtons={[
+                                    {
+                                        label: 'Cancel',
+                                        onPress: () => setFooterButtonsMultipleModalVisible(false),
+                                        variant: 'subtle',
+                                    },
+                                    {
+                                        label: 'Save Draft',
+                                        onPress: () => setFooterButtonsMultipleModalVisible(false),
+                                        variant: 'outline',
+                                        color: 'blue',
+                                    },
+                                    {
+                                        label: 'Publish',
+                                        onPress: () => setFooterButtonsMultipleModalVisible(false),
+                                        variant: 'filled',
+                                        color: 'green',
+                                    },
+                                ]}
+                            >
+                                <Text fs="sm" c="gray.7">
+                                    Multiple buttons are separated by dividers and each button can have its own variant and color.
+                                </Text>
+                            </Modal>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Key Features</Text>
+                        <Flex direction="column" gap="sm">
+                            <Text fs="sm" c="gray.7">• 🎯 Centered modal dialog</Text>
+                            <Text fs="sm" c="gray.7">• ✨ Smooth scale and fade animations</Text>
+                            <Text fs="sm" c="gray.7">• 🎨 Full theme integration</Text>
+                            <Text fs="sm" c="gray.7">• 📱 Backdrop tap to close (optional)</Text>
+                            <Text fs="sm" c="gray.7">• 🔘 Optional close button</Text>
+                            <Text fs="sm" c="gray.7">• 📏 Customizable width</Text>
+                            <Text fs="sm" c="gray.7">• 🎭 Title and description support</Text>
+                            <Text fs="sm" c="gray.7">• 🔧 Highly customizable styling</Text>
+                            <Text fs="sm" c="gray.7">• 🔲 Footer buttons with flat borderless design</Text>
+                            <Text fs="sm" c="gray.7">• 🎨 Multiple button variants and colors</Text>
                         </Flex>
                     </Box>
                 );

@@ -24,6 +24,7 @@ const components = [
     { name: 'Divider', description: 'Horizontal or vertical divider line' },
     { name: 'FAB', description: 'Floating Action Button component' },
     { name: 'Flex', description: 'Flexbox container component' },
+    { name: 'Modal', description: 'Centered modal dialog component with backdrop and customizable content' },
     { name: 'Multiselect', description: 'Multiple selection dropdown with tags, checkboxes, and search functionality' },
     { name: 'Select', description: 'Dropdown select component with search functionality' },
     { name: 'Space', description: 'Spacing component for layout' },

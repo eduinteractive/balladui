@@ -11,6 +11,7 @@ export * from './DateInput';
 export * from './Divider';
 export * from './FAB';
 export * from './Flex';
+export * from './Modal';
 export * from './Multiselect';
 export * from './Select';
 export * from './Space';
