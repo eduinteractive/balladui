@@ -14,6 +14,7 @@ export * from './Flex';
 export * from './Modal';
 export * from './Multiselect';
 export * from './Select';
+export * from './Sidebar';
 export * from './Space';
 export * from './Spinner';
 export * from './Switch';
