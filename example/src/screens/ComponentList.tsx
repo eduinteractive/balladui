@@ -27,6 +27,7 @@ const components = [
     { name: 'Modal', description: 'Centered modal dialog component with backdrop and customizable content' },
     { name: 'Multiselect', description: 'Multiple selection dropdown with tags, checkboxes, and search functionality' },
     { name: 'Select', description: 'Dropdown select component with search functionality' },
+    { name: 'Sidebar', description: 'Sidebar component that slides in from left or right with backdrop' },
     { name: 'Space', description: 'Spacing component for layout' },
     { name: 'Spinner', description: 'Loading spinner component' },
     { name: 'Switch', description: 'Toggle switch component with smooth animations and multiple variants' },

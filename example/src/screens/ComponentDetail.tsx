@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ScrollView } from 'react-native';
+import { ScrollView, View, Pressable } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox, Multiselect, DateInput, TimeInput, Switch, ActionSheet, BottomSheet, Modal } from '@eduinteractive/balladui';
+import { Box, Text, Button, Spinner, Card, FAB, Flex, TextInput, Tabs, Select, Avatar, Badge, Checkbox, Multiselect, DateInput, TimeInput, Switch, ActionSheet, BottomSheet, Modal, Sidebar } from '@eduinteractive/balladui';
 import React from 'react';
 
 type RouteParams = {
@@ -40,6 +40,15 @@ export const ComponentDetail = () => {
     const [footerButtonsConfirmModalVisible, setFooterButtonsConfirmModalVisible] = React.useState(false);
     const [footerButtonsMultipleModalVisible, setFooterButtonsMultipleModalVisible] = React.useState(false);
 
+    // State for Sidebar examples
+    const [basicSidebarVisible, setBasicSidebarVisible] = React.useState(false);
+    const [rightSidebarVisible, setRightSidebarVisible] = React.useState(false);
+    const [withTitleSidebarVisible, setWithTitleSidebarVisible] = React.useState(false);
+    const [customWidthSidebarVisible, setCustomWidthSidebarVisible] = React.useState(false);
+    const [menuSidebarVisible, setMenuSidebarVisible] = React.useState(false);
+    const [footerSidebarVisible, setFooterSidebarVisible] = React.useState(false);
+    const [customHeaderSidebarVisible, setCustomHeaderSidebarVisible] = React.useState(false);
+
     const renderComponentVariants = () => {
         switch (name) {
             case 'Button':
@@ -60,6 +69,252 @@ export const ComponentDetail = () => {
                             <Button size="md">Medium</Button>
                             <Button size="lg">Large</Button>
                             <Button size="xl">Extra Large</Button>
+                        </Flex>
+                    </Box>
+                );
+
+            case 'Sidebar':
+                return (
+                    <Box p="md" flex={1}>
+                        <Text fs="lg" fw="bold" mb="md">Basic Sidebar (Left)</Text>
+                        <Flex direction="column" gap="md" flex={1}>
+                            <Button onPress={() => setBasicSidebarVisible(true)}>
+                                Show Left Sidebar
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Sidebar that slides in from the left side
+                            </Text>
+                            <Sidebar
+                                visible={basicSidebarVisible}
+                                onClose={() => setBasicSidebarVisible(false)}
+                            >
+                                <Text fs="md" mb="md">
+                                    This is a basic sidebar. You can put any content here.
+                                </Text>
+                                <Button onPress={() => setBasicSidebarVisible(false)}>
+                                    Close Sidebar
+                                </Button>
+                            </Sidebar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Right Sidebar</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="blue" onPress={() => setRightSidebarVisible(true)}>
+                                Show Right Sidebar
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Sidebar that slides in from the right side
+                            </Text>
+                            <Sidebar
+                                visible={rightSidebarVisible}
+                                onClose={() => setRightSidebarVisible(false)}
+                                side="right"
+                            >
+                                <Text fs="md" mb="md">
+                                    This sidebar appears from the right side of the screen.
+                                </Text>
+                                <Button onPress={() => setRightSidebarVisible(false)}>
+                                    Close
+                                </Button>
+                            </Sidebar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Sidebar with Title</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="green" onPress={() => setWithTitleSidebarVisible(true)}>
+                                Show Sidebar with Title
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Sidebar with title and description
+                            </Text>
+                            <Sidebar
+                                visible={withTitleSidebarVisible}
+                                onClose={() => setWithTitleSidebarVisible(false)}
+                                title="Navigation Menu"
+                                description="Select an option from the menu"
+                                withCloseButton={true}
+                            >
+                                <Flex direction="column" gap="sm">
+                                    <Button variant="subtle" onPress={() => setWithTitleSidebarVisible(false)}>
+                                        Home
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setWithTitleSidebarVisible(false)}>
+                                        Profile
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setWithTitleSidebarVisible(false)}>
+                                        Settings
+                                    </Button>
+                                </Flex>
+                            </Sidebar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Custom Width Sidebar</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="purple" onPress={() => setCustomWidthSidebarVisible(true)}>
+                                Show Narrow Sidebar
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Sidebar with custom width (60% instead of default 80%)
+                            </Text>
+                            <Sidebar
+                                visible={customWidthSidebarVisible}
+                                onClose={() => setCustomWidthSidebarVisible(false)}
+                                title="Narrow Sidebar"
+                                width="60%"
+                            >
+                                <Text fs="sm" mb="md">
+                                    This sidebar has a custom width of 60% instead of the default 80%.
+                                </Text>
+                                <Button onPress={() => setCustomWidthSidebarVisible(false)}>
+                                    Close
+                                </Button>
+                            </Sidebar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Menu Sidebar</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="orange" onPress={() => setMenuSidebarVisible(true)}>
+                                Show Menu Sidebar
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Sidebar with navigation menu items
+                            </Text>
+                            <Sidebar
+                                visible={menuSidebarVisible}
+                                onClose={() => setMenuSidebarVisible(false)}
+                                title="Menu"
+                                withCloseButton={true}
+                                radius="md"
+                            >
+                                <Flex direction="column" gap="xs">
+                                    <Button variant="subtle" onPress={() => setMenuSidebarVisible(false)} style={{ alignSelf: 'stretch' }}>
+                                        🏠 Home
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setMenuSidebarVisible(false)} style={{ alignSelf: 'stretch' }}>
+                                        👤 Profile
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setMenuSidebarVisible(false)} style={{ alignSelf: 'stretch' }}>
+                                        ⚙️ Settings
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setMenuSidebarVisible(false)} style={{ alignSelf: 'stretch' }}>
+                                        📊 Analytics
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setMenuSidebarVisible(false)} style={{ alignSelf: 'stretch' }}>
+                                        📝 Documents
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setMenuSidebarVisible(false)} style={{ alignSelf: 'stretch' }}>
+                                        🔔 Notifications
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setMenuSidebarVisible(false)} style={{ alignSelf: 'stretch' }}>
+                                        ❓ Help
+                                    </Button>
+                                </Flex>
+                            </Sidebar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Sidebar with Footer</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="teal" onPress={() => setFooterSidebarVisible(true)}>
+                                Show Sidebar with Footer
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Sidebar with custom footer content at the bottom
+                            </Text>
+                            <Sidebar
+                                visible={footerSidebarVisible}
+                                onClose={() => setFooterSidebarVisible(false)}
+                                title="Settings"
+                                description="Configure your preferences"
+                                withCloseButton={true}
+                                footer={
+                                    <Flex direction="row" gap="sm">
+                                        <Button
+                                            variant="outline"
+                                            onPress={() => setFooterSidebarVisible(false)}
+                                            style={{ flex: 1 }}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            onPress={() => setFooterSidebarVisible(false)}
+                                            style={{ flex: 1 }}
+                                        >
+                                            Save
+                                        </Button>
+                                    </Flex>
+                                }
+                            >
+                                <Flex direction="column" gap="md">
+                                    <Text fs="sm" c="gray.7">
+                                        The footer accepts any custom React Node. You can add buttons, text, or any other components.
+                                    </Text>
+                                    <TextInput placeholder="Setting 1" />
+                                    <TextInput placeholder="Setting 2" />
+                                    <TextInput placeholder="Setting 3" />
+                                </Flex>
+                            </Sidebar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Sidebar with Custom Header</Text>
+                        <Flex direction="column" gap="md">
+                            <Button color="indigo" onPress={() => setCustomHeaderSidebarVisible(true)}>
+                                Show Sidebar with Custom Header
+                            </Button>
+                            <Text fs="sm" c="gray.6">
+                                Sidebar with completely custom header content
+                            </Text>
+                            <Sidebar
+                                visible={customHeaderSidebarVisible}
+                                onClose={() => setCustomHeaderSidebarVisible(false)}
+                                header={
+                                    <View style={{ padding: 16, backgroundColor: '#f0f0f0', borderBottomWidth: 1, borderBottomColor: '#ddd' }}>
+                                        <Flex direction="row" justify="space-between" align="center">
+                                            <Flex direction="row" align="center" gap="sm">
+                                                <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: '#007AFF', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <Text style={{ color: 'white', fontWeight: 'bold' }}>U</Text>
+                                                </View>
+                                                <Flex direction="column">
+                                                    <Text fs="md" fw="bold">User Profile</Text>
+                                                    <Text fs="xs" c="gray.6">user@example.com</Text>
+                                                </Flex>
+                                            </Flex>
+                                            <Pressable onPress={() => setCustomHeaderSidebarVisible(false)}>
+                                                <Text style={{ fontSize: 24, color: '#666' }}>×</Text>
+                                            </Pressable>
+                                        </Flex>
+                                    </View>
+                                }
+                            >
+                                <Flex direction="column" gap="md">
+                                    <Text fs="sm" c="gray.7">
+                                        You can provide any custom React Node as the header. This gives you complete control over the header design.
+                                    </Text>
+                                    <Button variant="subtle" onPress={() => setCustomHeaderSidebarVisible(false)}>
+                                        Edit Profile
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setCustomHeaderSidebarVisible(false)}>
+                                        Settings
+                                    </Button>
+                                    <Button variant="subtle" onPress={() => setCustomHeaderSidebarVisible(false)}>
+                                        Logout
+                                    </Button>
+                                </Flex>
+                            </Sidebar>
+                        </Flex>
+
+                        <Text fs="lg" fw="bold" mt="lg" mb="md">Key Features</Text>
+                        <Flex direction="column" gap="sm">
+                            <Text fs="sm" c="gray.7">• 🎯 Sidebar that slides in from left or right</Text>
+                            <Text fs="sm" c="gray.7">• ✨ Smooth slide and fade animations</Text>
+                            <Text fs="sm" c="gray.7">• 🎨 Full theme integration</Text>
+                            <Text fs="sm" c="gray.7">• 📱 Backdrop tap to close (optional)</Text>
+                            <Text fs="sm" c="gray.7">• 🔘 Optional close button</Text>
+                            <Text fs="sm" c="gray.7">• 📏 Customizable width</Text>
+                            <Text fs="sm" c="gray.7">• 🎭 Title and description support</Text>
+                            <Text fs="sm" c="gray.7">• 📜 Scrollable content</Text>
+                            <Text fs="sm" c="gray.7">• 🔲 Custom footer with any React Node</Text>
+                            <Text fs="sm" c="gray.7">• 🎨 Custom header with any React Node</Text>
+                            <Text fs="sm" c="gray.7">• 🔧 Highly customizable styling</Text>
                         </Flex>
                     </Box>
                 );
