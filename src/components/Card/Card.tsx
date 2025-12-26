@@ -9,18 +9,66 @@ import type { BalladTheme } from '../../BalladUIProvider';
 
 export type CardVariant = 'elevated' | 'filled' | 'outline';
 
-const getVariantStyles = (variant: CardVariant, color?: string, theme?: BalladTheme) => {
+const getShadowStyles = (shadow: BalladSize) => {
+    const shadowMap: Record<string, { shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number }> = {
+        'xs': {
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.1,
+            shadowRadius: 1.5,
+            elevation: 2,
+        },
+        'sm': {
+            shadowOffset: { width: 0, height: 1.5 },
+            shadowOpacity: 0.15,
+            shadowRadius: 2.5,
+            elevation: 3,
+        },
+        'smd': {
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 3.2,
+            elevation: 4,
+        },
+        'md': {
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+        },
+        'lg': {
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 6,
+            elevation: 8,
+        },
+        'xl': {
+            shadowOffset: { width: 0, height: 6 },
+            shadowOpacity: 0.35,
+            shadowRadius: 10,
+            elevation: 12,
+        },
+        '2xl': {
+            shadowOffset: { width: 0, height: 8 },
+            shadowOpacity: 0.4,
+            shadowRadius: 15,
+            elevation: 16,
+        },
+    };
+
+    const sizeKey = typeof shadow === 'string' ? shadow : 'md';
+    return shadowMap[sizeKey] ?? shadowMap.md;
+};
+
+const getVariantStyles = (variant: CardVariant, color?: string, theme?: BalladTheme, shadow?: BalladSize) => {
     const baseColor = applyColor(color, theme);
 
     switch (variant) {
         case 'elevated':
+            const shadowStyles = getShadowStyles(shadow ?? 'md');
             return {
                 backgroundColor: baseColor ?? 'white',
                 shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                elevation: 5,
+                ...shadowStyles,
             };
         case 'filled':
             return {
@@ -56,6 +104,12 @@ export interface CardProp extends BoxProps {
      * @default 'elevated'
      */
     variant?: CardVariant;
+
+    /**
+     * The shadow intensity for the elevated variant.
+     * @default 'md'
+     */
+    shadow?: BalladSize;
 }
 
 export const Card = (props: CardProp) => {
@@ -63,12 +117,13 @@ export const Card = (props: CardProp) => {
         color,
         radius = 'md',
         variant = 'elevated',
+        shadow = 'md',
         ...rest
     } = props;
 
     const theme = useTheme();
 
-    const variantStyles = getVariantStyles(variant, color, theme);
+    const variantStyles = getVariantStyles(variant, color, theme, shadow);
 
     const { style, ...boxProps } = applyStyle({
         ...rest,

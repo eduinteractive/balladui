@@ -126,6 +126,11 @@ export interface ModalProps extends BoxProps {
         color?: string;
 
         /**
+         * Text color for the button label.
+         */
+        textColor?: string;
+
+        /**
          * Whether the button is disabled.
          * @default false
          */
@@ -137,6 +142,12 @@ export interface ModalProps extends BoxProps {
          */
         fontSize?: BalladSize;
     }> | React.ReactNode;
+
+    /**
+     * Whether to show borders between footer buttons.
+     * @default true
+     */
+    showButtonBorders?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -157,6 +168,7 @@ export const Modal: React.FC<ModalProps> = ({
     withCloseButton = false,
     closeButton,
     footerButtons,
+    showButtonBorders = true,
     ...rest
 }) => {
     const theme = useTheme();
@@ -365,6 +377,7 @@ export const Modal: React.FC<ModalProps> = ({
                                         onPress?: () => void;
                                         variant?: 'subtle' | 'light' | 'default' | 'filled' | 'outline';
                                         color?: string;
+                                        textColor?: string;
                                         disabled?: boolean;
                                         fontSize?: BalladSize;
                                     };
@@ -410,6 +423,9 @@ export const Modal: React.FC<ModalProps> = ({
                                     };
 
                                     const getTextColor = () => {
+                                        if (buttonConfig.textColor) {
+                                            return applyColor(buttonConfig.textColor, theme);
+                                        }
                                         if (disabled) return applyColor('gray.5', theme);
                                         if (variant === 'filled') return '#FFFFFF';
                                         return applyColor(color, theme);
@@ -420,7 +436,7 @@ export const Modal: React.FC<ModalProps> = ({
 
                                     return (
                                         <React.Fragment key={index}>
-                                            {index > 0 && (
+                                            {index > 0 && showButtonBorders && (
                                                 <View
                                                     style={{
                                                         width: 1,
