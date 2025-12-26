@@ -148,6 +148,18 @@ export interface ModalProps extends BoxProps {
      * @default true
      */
     showButtonBorders?: boolean;
+
+    /**
+     * Whether to show the border below the header.
+     * @default true
+     */
+    showHeaderBorder?: boolean;
+
+    /**
+     * Whether to show the border above the footer.
+     * @default true
+     */
+    showFooterBorder?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -169,6 +181,8 @@ export const Modal: React.FC<ModalProps> = ({
     closeButton,
     footerButtons,
     showButtonBorders = true,
+    showHeaderBorder = true,
+    showFooterBorder = true,
     ...rest
 }) => {
     const theme = useTheme();
@@ -284,7 +298,7 @@ export const Modal: React.FC<ModalProps> = ({
                                 paddingHorizontal: applySizeProp('lg'),
                                 paddingTop: applySizeProp('lg'),
                                 paddingBottom: description ? applySizeProp('sm') : applySizeProp('md'),
-                                borderBottomWidth: children ? 1 : 0,
+                                borderBottomWidth: showHeaderBorder && children ? 1 : 0,
                                 borderBottomColor: applyColor('gray.2', theme),
                                 flexDirection: 'row',
                                 alignItems: 'flex-start',
@@ -362,7 +376,7 @@ export const Modal: React.FC<ModalProps> = ({
                     {footerButtons && (
                         <View
                             style={{
-                                borderTopWidth: 1,
+                                borderTopWidth: showFooterBorder ? 1 : 0,
                                 borderTopColor: applyColor('gray.2', theme),
                                 flexDirection: 'row',
                                 borderBottomLeftRadius: applySizeProp(radius),

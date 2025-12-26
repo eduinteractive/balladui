@@ -12,13 +12,13 @@ export type CardVariant = 'elevated' | 'filled' | 'outline';
 const getShadowStyles = (shadow: BalladSize) => {
     const shadowMap: Record<string, { shadowOffset: { width: number; height: number }; shadowOpacity: number; shadowRadius: number; elevation: number }> = {
         'xs': {
-            shadowOffset: { width: 0, height: 1 },
+            shadowOffset: { width: 0, height: 0 },
             shadowOpacity: 0.1,
             shadowRadius: 1.5,
             elevation: 2,
         },
         'sm': {
-            shadowOffset: { width: 0, height: 1.5 },
+            shadowOffset: { width: 0, height: 0 },
             shadowOpacity: 0.15,
             shadowRadius: 2.5,
             elevation: 3,
